@@ -92,6 +92,7 @@ h1, h2, h3, .logo, .profile-name, .page-heading h1 {
 
 /* ---------------- 背景层 ---------------- */
 .bg-slides,
+.bg-photo,
 .bg-overlay,
 .bg-gradient,
 .bg-blobs,
@@ -104,6 +105,8 @@ h1, h2, h3, .logo, .profile-name, .page-heading h1 {
 }
 
 .bg-slides { z-index: -12; overflow: hidden; }
+/* 装修皮肤激活时隐藏 config 轮播层，避免默认餐具图盖住新背景 */
+html[data-skin] .bg-slides { display: none; }
 
 /* 参考图：按高度铺满并向上取景，保留蕾丝、餐具与兔子主体 */
 .bg-slide {
@@ -1136,6 +1139,94 @@ html.dark .about-hero h2 {
 .logo:hover { filter: brightness(1.12); }
 
 /* ===========================================================
+   顶部英文化设计（描摹参考图 shot-B：手写花体 + 药丸导航 + hero）
+   仅改顶部视觉，整体装修/背景/卡片/头像框一律不动
+   =========================================================== */
+.logo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  font-family: "Brush Script MT", "Segoe Script", "Snell Roundhand", cursive;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 0.95;
+  font-style: italic;
+  color: #6b6472;
+  background: none !important;
+  -webkit-text-fill-color: #6b6472 !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+}
+.logo .logo-word { font-size: 30px; letter-spacing: .01em; }
+.logo .logo-sub {
+  font-family: "Brush Script MT", "Segoe Script", cursive;
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: .24em;
+  color: #9a8fa2;
+  -webkit-text-fill-color: #9a8fa2 !important;
+  padding-left: 2px;
+}
+html.dark .logo,
+html[data-skin] .logo { background: none !important; -webkit-text-fill-color: #6b6472 !important; }
+html.dark .logo .logo-sub,
+html[data-skin] .logo .logo-sub { -webkit-text-fill-color: #9a8fa2 !important; }
+
+/* 药丸形导航：仿参考图右上排列，弱化字重、胶囊高亮当前项 */
+.main-nav { gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.nav-link {
+  font-family: "Songti SC", "Noto Serif SC", Georgia, serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: #7d7883;
+  padding: 7px 13px;
+  border-radius: 20px;
+}
+.nav-link:hover { color: #6b6472; transform: none; background: rgba(180, 165, 190, .13); }
+.nav-link.active { color: #6b6472; background: rgba(180, 165, 190, .2); }
+.nav-link.active::after { display: none; }
+
+/* 首页英文 hero：手写 eyebrow + 衬线大标题 + 小字描述 */
+.home-hero { text-align: center; padding: 36px 16px 22px; }
+.home-hero-eyebrow {
+  font-family: "Brush Script MT", "Segoe Script", cursive;
+  font-size: 22px;
+  font-style: italic;
+  letter-spacing: .03em;
+  color: #9a8fa2;
+  margin: 0 0 6px;
+}
+.home-hero-title {
+  font-family: "Songti SC", "Noto Serif SC", Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 5vw, 50px);
+  font-weight: 500;
+  letter-spacing: .09em;
+  color: #4a4550;
+  margin: 0 0 12px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .9);
+  background: none !important;
+  -webkit-text-fill-color: #4a4550 !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+}
+.home-hero-desc {
+  font-size: 13px;
+  color: #8c8a90;
+  line-height: 1.9;
+  max-width: 640px;
+  margin: 0 auto;
+}
+@media (max-width: 720px) {
+  .logo, .logo .logo-word { font-size: 25px; }
+  .logo .logo-sub { font-size: 9px; letter-spacing: .18em; }
+  .home-hero { padding: 22px 12px 14px; }
+  .home-hero-eyebrow { font-size: 18px; }
+  .home-hero-desc { font-size: 12px; }
+}
+
+/* ===========================================================
    Instagram 社交风格排版（保留法式蕾丝视觉皮肤）
    =========================================================== */
 
@@ -1368,36 +1459,76 @@ html.dark .about-hero h2 {
 }
 
 /* ===========================================================
-   三套装修皮肤（data-skin 由 skin.js 设置；仅换背景与氛围，布局不变）
+   装修色系皮肤（data-skin 由 skin.js 设置；统一线稿素材，仅换色系）
    =========================================================== */
-html[data-skin] .bg-photo {
-  background-image: var(--skin-bg, url("../img/collab/angel-lamb.jpg")) !important;
+/* 背景层基础样式：置于轮播层之上、遮罩层之下。
+   fit/pos/op 由 skin.js 按套注入：A 原版 cover 居中铺满；B-E 居中排版 100% auto */
+.bg-photo {
+  z-index: -13;
+  background-repeat: no-repeat;
+  background-position: var(--skin-pos, center top);
+  background-size: var(--skin-fit, 100% auto);
+  opacity: var(--skin-ph-op, 1);
 }
-html[data-skin="B"] body { background-color:#fdf9f9; }
-html[data-skin="B"] .bg-gradient {
-  background:linear-gradient(-45deg,#f7e2ea,#fbeef2,#f3e6ee,#fce9ef) !important;
+/* 装修皮肤激活：皮肤图置于最底层，上方遮罩/雾气层沿用当前版设计 */
+html[data-skin] .bg-photo { background-image: var(--skin-bg) !important; }
+/* 手机竖屏：横屏图 cover 会裁掉主体，自动换回竖版原图 */
+@media (max-width: 700px) and (orientation: portrait) {
+  html[data-skin] .bg-photo {
+    background-image: var(--skin-bg-mobile) !important;
+    background-position: center 24%;
+    background-size: cover;
+  }
 }
-html[data-skin="C"] body { background-color:#f7f4ef; }
-html[data-skin="C"] .bg-gradient {
-  background:linear-gradient(-45deg,#efe7d6,#f5efe1,#eae2d2,#f3ecdc) !important;
+/* 色系变量覆盖：背景底色 / 遮罩 / 雾气 / 强调色 / 标题渐变 */
+html[data-skin] body { background-color: var(--skin-body-bg); }
+html[data-skin] .bg-overlay { background: var(--skin-overlay) !important; }
+html[data-skin] .bg-gradient { opacity: var(--skin-grad-op, 0.18); }
+html[data-skin] .bg-gradient { background: var(--skin-gradient) !important; }
+html[data-skin] { --accent: var(--skin-accent); --gold: var(--skin-gold); }
+html[data-skin] .logo,
+html[data-skin] .profile-name,
+html[data-skin] .page-heading h1,
+html[data-skin] .music-head h2,
+html[data-skin] .about-hero h2 {
+  background: var(--skin-title) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
 }
+
 /* 皮肤切换悬浮器（主站也提供入口） */
 .skin-fab { position:fixed; right:20px; bottom:22px; z-index:60; width:48px; height:48px; border-radius:50%;
   border:2px solid rgba(255,255,255,.9); background:#6b6472; color:#fff; font-size:22px;
   cursor:pointer; box-shadow:0 10px 26px rgba(90,80,100,.3); }
-.skin-picker { position:fixed; right:20px; bottom:78px; z-index:60; width:210px; padding:10px;
+.skin-picker { position:fixed; right:20px; bottom:78px; z-index:60; width:222px; padding:10px;
   background:rgba(255,255,255,.95); border:1px solid rgba(180,165,190,.3); border-radius:16px;
   box-shadow:0 12px 36px rgba(90,80,100,.2); opacity:0; transform:translateY(8px);
   pointer-events:none; transition:.25s; }
 .skin-picker.open { opacity:1; transform:none; pointer-events:auto; }
 .skin-picker-head { font-size:12px; color:#8c8a90; padding:4px 8px 8px; }
-.skin-picker button { width:100%; display:flex; align-items:center; gap:10px; padding:9px 8px;
+.skin-picker button { width:100%; display:flex; align-items:center; gap:10px; padding:8px 8px;
   border:none; background:transparent; border-radius:10px; cursor:pointer; text-align:left; }
 .skin-picker button:hover,.skin-picker button.active { background:rgba(180,165,190,.14); }
-.skin-picker .sw { width:30px; height:30px; border-radius:8px; flex-shrink:0; border:1px solid rgba(0,0,0,.06); }
-.skin-picker .sw.a { background:linear-gradient(135deg,#fafafa,#dfe3e6); }
-.skin-picker .sw.b { background:linear-gradient(135deg,#fff8f9,#f3d9e2); }
-.skin-picker .sw.c { background:linear-gradient(135deg,#fdfbf6,#ddd0b4); }
+.skin-picker .sw { width:34px; height:34px; border-radius:8px; flex-shrink:0; border:1px solid rgba(0,0,0,.08);
+  background-size:cover; background-position:center; background-color:#faf9f8; }
+.skin-picker .sw.a { background-image:url("../img/landscape/orig-tableware.jpg"); }
+.skin-picker .sw.b { background-image:url("../img/landscape/center-lamb.jpg"); }
+.skin-picker .sw.c { background-image:url("../img/landscape/center-bunny.jpg"); }
+.skin-picker .sw.d { background-image:url("../img/landscape/center-duo.jpg"); }
+.skin-picker .sw.e { background-image:url("../img/landscape/center-lamb-paper.jpg"); }
 .skin-picker b { font-size:13px; color:#4b4450; }
 .skin-picker small { font-size:11px; color:#8c8a90; margin-left:auto; }
 @media (max-width:600px){ .skin-fab{right:14px;bottom:16px;width:44px;height:44px} .skin-picker{right:14px;bottom:70px} }
+
+/* ---------- 顶部英文化最终覆盖（置于皮肤规则之后，确保手写体不被渐变吞掉） ---------- */
+html[data-skin] .logo,
+html[data-skin] .home-hero-title {
+  background: none !important;
+  -webkit-text-fill-color: #6b6472 !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+}
+html[data-skin] .home-hero-title { -webkit-text-fill-color: #4a4550 !important; }
+html[data-skin] .logo .logo-sub { -webkit-text-fill-color: #9a8fa2 !important; }

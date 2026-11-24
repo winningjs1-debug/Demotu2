@@ -13,24 +13,31 @@ html, body { margin:0; padding:0; }
 .social-page {
   font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
   color:#4b4450; min-height:100vh; -webkit-font-smoothing:antialiased;
-  background-image:var(--skin-bg,url("../img/collab/angel-lamb.jpg"));
-  background-repeat:no-repeat; background-position:center top; background-size:auto 150vh;
+  background-image:var(--skin-bg,url("../img/landscape/lamb-silver.jpg"));
+  background-repeat:no-repeat; background-position:center 26%; background-size:cover;
   background-color:#f8f6f5; background-attachment:fixed;
 }
 .social-page::before { content:""; position:fixed; inset:0; z-index:-1;
   background:var(--skin-veil,rgba(255,255,255,.58)); backdrop-filter:blur(2px); pointer-events:none; }
+/* 手机竖屏换回竖版原图，避免横屏图 cover 裁掉主体 */
+@media (max-width:700px) and (orientation:portrait) {
+  .social-page { background-image:var(--skin-bg-mobile,url("../img/landscape/portrait-lamb.jpg")); background-position:center 24%; }
+}
 
 /* ---------- 顶部导航 ---------- */
 .soc-header { position:sticky; top:0; z-index:30; background:rgba(255,255,255,.72);
   backdrop-filter:blur(16px); border-bottom:1px solid var(--soc-line); }
 .soc-header-inner { max-width:1040px; margin:0 auto; height:60px; padding:0 22px;
   display:flex; align-items:center; justify-content:space-between; }
-.soc-logo { font-family:"Brush Script MT","Segoe Script",cursive; font-size:26px;
-  color:var(--soc-accent); text-decoration:none; letter-spacing:.02em; }
-.soc-logo span { font-size:13px; opacity:.6; }
-.soc-nav { display:flex; gap:4px; }
-.soc-nav a { color:#7d7883; text-decoration:none; font-size:13px; padding:8px 15px; border-radius:20px; transition:.2s; }
-.soc-nav a:hover,.soc-nav a.active { background:rgba(180,165,190,.16); color:var(--soc-accent); }
+.soc-logo { display:inline-flex; flex-direction:column; align-items:flex-start; gap:2px;
+  font-family:"Brush Script MT","Segoe Script","Snell Roundhand",cursive; font-size:28px;
+  font-style:italic; line-height:.95; color:var(--soc-accent); text-decoration:none; letter-spacing:.02em; }
+.soc-logo-word { font-size:28px; }
+.soc-logo-sub { font-size:10px; font-style:normal; letter-spacing:.22em; opacity:.72; padding-left:2px; }
+.soc-nav { display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end; }
+.soc-nav a { color:#7d7883; text-decoration:none; font-size:13px; padding:7px 14px; border-radius:20px; transition:.2s;
+  font-family:"Songti SC","Noto Serif SC",Georgia,serif; letter-spacing:.04em; }
+.soc-nav a:hover,.soc-nav a.active { background:rgba(180,165,190,.2); color:#6b6472; }
 
 .soc-main { max-width:720px; margin:0 auto; padding:26px 18px 80px; }
 

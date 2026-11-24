@@ -61,7 +61,7 @@ def nav_html(active):
     return '''
     <header class="site-header">
       <div class="header-inner">
-        <a class="logo" href="index.html">%s<span class="dot">の</span>小站</a>
+        <a class="logo" href="index.html"><span class="logo-word">DemoTu</span><small class="logo-sub">ROSE &amp; BUNNY DIARY</small></a>
         <nav class="main-nav">%s</nav>
       </div>
     </header>
@@ -69,7 +69,7 @@ def nav_html(active):
       <span></span><span></span><span></span>
     </button>
     <nav class="mobile-nav" id="mobileNav">%s</nav>
-    ''' % (esc(site.get('name', 'DemoTu.com')), ''.join(links), ''.join(mobile))
+    ''' % (''.join(links), ''.join(mobile))
 
 
 def background_html():
@@ -121,9 +121,11 @@ def shell(title, active, content):
   <button class="skin-fab" id="skinFab" aria-label="切换装修风格" title="切换装修风格">❀</button>
   <div class="skin-picker" id="skinPicker">
     <div class="skin-picker-head">选择装修风格</div>
-    <button data-skin-btn="A"><span class="sw a"></span><b>天使之窗</b><small>银白手账</small></button>
-    <button data-skin-btn="B"><span class="sw b"></span><b>玫瑰兔宝</b><small>粉白梦境</small></button>
-    <button data-skin-btn="C"><span class="sw c"></span><b>复古相簿</b><small>银金拼贴</small></button>
+    <button data-skin-btn="A"><span class="sw a"></span><b>原版·餐具兔</b><small>法式蕾丝·居中铺满</small></button>
+    <button data-skin-btn="B"><span class="sw b"></span><b>小羊·居中</b><small>原色拼贴·居中排版</small></button>
+    <button data-skin-btn="C"><span class="sw c"></span><b>兔宝·居中</b><small>原色拼贴·居中排版</small></button>
+    <button data-skin-btn="D"><span class="sw d"></span><b>双拼·居中</b><small>羊兔并置·居中排版</small></button>
+    <button data-skin-btn="E"><span class="sw e"></span><b>小羊·纸底</b><small>原色拼贴·居中纸底</small></button>
   </div>
   %s
   %s
@@ -225,6 +227,12 @@ def home_content():
         </button>'''
 
     content = '''
+    <section class="home-hero reveal">
+      <p class="home-hero-eyebrow">The Rose&rsquo;s soft confession</p>
+      <h2 class="home-hero-title">A Tender Little World</h2>
+      <p class="home-hero-desc">Love casting dream platform &middot; a soft and warm confession. 把甜甜的梦，写进每一页手账。</p>
+    </section>
+
     <section class="search-wrap reveal">
       <form class="search-box" id="searchForm">
         %s
