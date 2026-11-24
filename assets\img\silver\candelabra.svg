@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 440" width="300" height="440">
+  <defs>
+    <linearGradient id="candSteel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".34" stop-color="#e8ebef"/>
+      <stop offset=".58" stop-color="#fcfdfe"/>
+      <stop offset=".82" stop-color="#ccd2da"/>
+      <stop offset="1" stop-color="#e9ecf0"/>
+    </linearGradient>
+    <radialGradient id="pearl" cx="34%" cy="30%" r="70%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".55" stop-color="#f6f8fa"/>
+      <stop offset="1" stop-color="#d3d9e1"/>
+    </radialGradient>
+  </defs>
+
+  <g fill="url(#candSteel)" stroke="#b9c1cb" stroke-width="1.1" stroke-linejoin="round">
+    <!-- 底座 -->
+    <ellipse cx="150" cy="404" rx="58" ry="13"/>
+    <ellipse cx="150" cy="392" rx="42" ry="10"/>
+    <path d="M150 356c8 0 14 8 14 18s-6 16-14 16-14-6-14-16 6-18 14-18z"/>
+    <!-- 立柱 -->
+    <path d="M144 246h12v112h-12z"/>
+    <path d="M138 232c8-8 16-8 24 0 2 6 0 12-4 16h-16c-4-4-6-10-4-16z"/>
+    <path d="M142 210c6-6 10-6 16 0-2 8-4 12-8 14-4-2-6-6-8-14z"/>
+    <!-- 左右臂 -->
+    <path d="M150 262c-24 0-44-16-56-40-4-8-4-16 2-20 6-4 12 0 16 8 8 18 22 28 38 30z"/>
+    <path d="M150 262c24 0 44-16 56-40 4-8 4-16-2-20-6-4-12 0-16 8-8 18-22 28-38 30z"/>
+    <!-- 烛杯 -->
+    <path d="M78 186h30c3 0 5 3 5 6l-5 12h-30l-5-12c0-3 2-6 5-6z"/>
+    <path d="M192 186h30c3 0 5 3 5 6l-5 12h-30l-5-12c0-3 2-6 5-6z"/>
+    <!-- 蜡烛 -->
+    <path d="M87 148h12v38H87z"/>
+    <path d="M201 148h12v38h-12z"/>
+  </g>
+
+  <!-- 珍珠 -->
+  <g stroke="#c6cdd6" stroke-width=".7">
+    <circle cx="93" cy="134" r="9" fill="url(#pearl)"/>
+    <circle cx="207" cy="134" r="9" fill="url(#pearl)"/>
+    <circle cx="150" cy="196" r="7" fill="url(#pearl)"/>
+    <circle cx="128" cy="212" r="5" fill="url(#pearl)"/>
+    <circle cx="172" cy="212" r="5" fill="url(#pearl)"/>
+    <circle cx="110" cy="228" r="4" fill="url(#pearl)"/>
+    <circle cx="190" cy="228" r="4" fill="url(#pearl)"/>
+  </g>
+  <!-- 珍珠链 -->
+  <g fill="none" stroke="#cfd5dd" stroke-width=".7" stroke-dasharray="1 4.6" opacity=".9">
+    <path d="M70 150c-8 26 6 44 24 52"/>
+    <path d="M230 150c8 26-6 44-24 52"/>
+  </g>
+
+  <!-- 缎带蝴蝶结 -->
+  <g fill="#ffffff" stroke="#c9d0d8" stroke-width=".9">
+    <path d="M150 300c-22-20-46-20-52-6-6 15 22 24 52 14z" opacity=".96"/>
+    <path d="M150 300c22-20 46-20 52-6 6 15-22 24-52 14z" opacity=".96"/>
+    <path d="M150 306c-6 16-9 26-9 36 8-5 13-13 9-36z"/>
+    <path d="M150 306c6 16 9 26 9 36-8-5-13-13-9-36z"/>
+    <circle cx="150" cy="302" r="6"/>
+  </g>
+  <path d="M120 300c10 4 18 8 26 14" fill="none" stroke="#dfe4ea" stroke-width="1"/>
+</svg>

@@ -8,41 +8,86 @@
     "footerText": "© 2026 DemoTu.com · 用热爱发电",
     "icp": ""
   },
-  "backgrounds": [],
+  "backgrounds": [
+    "assets/img/style-ref.jpg"
+  ],
   "themeBackgrounds": {
     "day": "assets/img/banquet-day.svg",
     "night": "assets/img/banquet-night.svg"
   },
   "socials": [
-    { "name": "github", "label": "GitHub", "url": "https://github.com/DemoTu", "icon": "github" },
-    { "name": "gitee", "label": "Gitee", "url": "https://gitee.com/DemoTu", "icon": "gitee" },
-    { "name": "email", "label": "邮箱", "url": "mailto:hello@demotu.com", "icon": "email" },
-    { "name": "qq", "label": "QQ", "url": "#", "icon": "qq" },
-    { "name": "wechat", "label": "微信", "url": "#", "icon": "wechat" },
-    { "name": "rss", "label": "RSS", "url": "#", "icon": "rss" }
+    {
+      "name": "github",
+      "label": "GitHub",
+      "url": "https://github.com/DemoTu",
+      "icon": "github"
+    },
+    {
+      "name": "gitee",
+      "label": "Gitee",
+      "url": "https://gitee.com/DemoTu",
+      "icon": "gitee"
+    },
+    {
+      "name": "email",
+      "label": "邮箱",
+      "url": "mailto:hello@demotu.com",
+      "icon": "email"
+    },
+    {
+      "name": "qq",
+      "label": "QQ",
+      "url": "#",
+      "icon": "qq"
+    },
+    {
+      "name": "wechat",
+      "label": "微信",
+      "url": "#",
+      "icon": "wechat"
+    },
+    {
+      "name": "rss",
+      "label": "RSS",
+      "url": "#",
+      "icon": "rss"
+    }
   ],
-  "stats": { "articles": 3, "chatter": 2, "photos": 6 },
+  "stats": {
+    "articles": 3,
+    "chatter": 2,
+    "photos": 6
+  },
   "articles": [
     {
       "title": "在山野间，找回生活的呼吸",
       "description": "离开屏幕一会儿，去看看云怎么走，风怎么吹。山里的答案，往往比城市更轻。",
       "cover": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1000&q=85&auto=format&fit=crop",
       "date": "2026-11-18",
-      "tags": ["生活", "随笔"]
+      "tags": [
+        "生活",
+        "随笔"
+      ]
     },
     {
       "title": "关于构建个人网站的一些碎碎念",
       "description": "从零开始搭一个属于自己的角落，把喜欢的文字、照片和音乐都放进去。",
       "cover": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1000&q=85&auto=format&fit=crop",
       "date": "2026-11-12",
-      "tags": ["技术", "建站"]
+      "tags": [
+        "技术",
+        "建站"
+      ]
     },
     {
       "title": "深夜电台：写给失眠者的三首歌",
       "description": "当世界安静下来，耳机里的旋律就成了最温柔的陪伴。",
       "cover": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1000&q=85&auto=format&fit=crop",
       "date": "2026-11-05",
-      "tags": ["音乐", "电台"]
+      "tags": [
+        "音乐",
+        "电台"
+      ]
     }
   ],
   "chatters": [
@@ -51,59 +96,210 @@
       "description": "下班路上绕了一段远路，只为看一眼河边的晚霞。原来快乐可以这么便宜。",
       "cover": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1000&q=85&auto=format&fit=crop",
       "date": "2026-11-20",
-      "tags": ["日常"]
+      "tags": [
+        "日常"
+      ]
     },
     {
       "title": "关于坚持这件小事",
       "description": "不需要每天都很用力，只要别彻底停下。慢慢来，比较快。",
       "cover": "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1000&q=85&auto=format&fit=crop",
       "date": "2026-11-15",
-      "tags": ["思考"]
+      "tags": [
+        "思考"
+      ]
     }
   ],
   "photos": [
-    { "title": "星空下的山", "url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=85&auto=format&fit=crop", "place": "川西" },
-    { "title": "清晨的雾", "url": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=85&auto=format&fit=crop", "place": "江南" },
-    { "title": "湖畔黄昏", "url": "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800&q=85&auto=format&fit=crop", "place": "洱海" },
-    { "title": "森林的光", "url": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=85&auto=format&fit=crop", "place": "莫干山" },
-    { "title": "雪山之巅", "url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=85&auto=format&fit=crop", "place": "西藏" },
-    { "title": "海边日落", "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=85&auto=format&fit=crop", "place": "厦门" }
+    {
+      "title": "星空下的山",
+      "url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=85&auto=format&fit=crop",
+      "place": "川西"
+    },
+    {
+      "title": "清晨的雾",
+      "url": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=85&auto=format&fit=crop",
+      "place": "江南"
+    },
+    {
+      "title": "湖畔黄昏",
+      "url": "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800&q=85&auto=format&fit=crop",
+      "place": "洱海"
+    },
+    {
+      "title": "森林的光",
+      "url": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=85&auto=format&fit=crop",
+      "place": "莫干山"
+    },
+    {
+      "title": "雪山之巅",
+      "url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=85&auto=format&fit=crop",
+      "place": "西藏"
+    },
+    {
+      "title": "海边日落",
+      "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=85&auto=format&fit=crop",
+      "place": "厦门"
+    }
   ],
   "projects": [
-    { "name": "萤火笔记", "desc": "一个极简的 Markdown 写作工具，支持本地优先与双链笔记。", "tags": ["Web", "开源"], "url": "#", "emoji": "📝" },
-    { "name": "深空电台", "desc": "基于 Web Audio 的沉浸式音乐播放器，带可视化频谱。", "tags": ["音乐", "前端"], "url": "#", "emoji": "🎧" },
-    { "name": "光影集", "desc": "自动整理、去重并展示照片的轻量相册应用。", "tags": ["摄影", "工具"], "url": "#", "emoji": "📷" }
+    {
+      "name": "萤火笔记",
+      "desc": "一个极简的 Markdown 写作工具，支持本地优先与双链笔记。",
+      "tags": [
+        "Web",
+        "开源"
+      ],
+      "url": "#",
+      "emoji": "📝"
+    },
+    {
+      "name": "深空电台",
+      "desc": "基于 Web Audio 的沉浸式音乐播放器，带可视化频谱。",
+      "tags": [
+        "音乐",
+        "前端"
+      ],
+      "url": "#",
+      "emoji": "🎧"
+    },
+    {
+      "name": "光影集",
+      "desc": "自动整理、去重并展示照片的轻量相册应用。",
+      "tags": [
+        "摄影",
+        "工具"
+      ],
+      "url": "#",
+      "emoji": "📷"
+    }
   ],
   "timeline": [
-    { "date": "2026 · 至今", "title": "持续折腾这个博客", "desc": "把这里当成互联网上的自留地，慢慢写、慢慢改。" },
-    { "date": "2025", "title": "开始记录生活", "desc": "从一篇随笔开始，学会了用文字留住转瞬即逝的情绪。" },
-    { "date": "2024", "title": "第一次独立开发项目", "desc": "从想法到上线，踩了很多坑，也收获了很多快乐。" },
-    { "date": "2023", "title": "与编程相遇", "desc": "写下第一行代码，从此打开了一扇新世界的大门。" }
+    {
+      "date": "2026 · 至今",
+      "title": "持续折腾这个博客",
+      "desc": "把这里当成互联网上的自留地，慢慢写、慢慢改。"
+    },
+    {
+      "date": "2025",
+      "title": "开始记录生活",
+      "desc": "从一篇随笔开始，学会了用文字留住转瞬即逝的情绪。"
+    },
+    {
+      "date": "2024",
+      "title": "第一次独立开发项目",
+      "desc": "从想法到上线，踩了很多坑，也收获了很多快乐。"
+    },
+    {
+      "date": "2023",
+      "title": "与编程相遇",
+      "desc": "写下第一行代码，从此打开了一扇新世界的大门。"
+    }
   ],
   "music": [
-    { "title": "夜的钢琴曲", "artist": "石进", "duration": "04:32", "emoji": "🌙" },
-    { "title": "Sunset Lover", "artist": "Petit Biscuit", "duration": "03:53", "emoji": "🌇" },
-    { "title": "River Flows in You", "artist": "Yiruma", "duration": "03:46", "emoji": "🌊" },
-    { "title": "小半", "artist": "陈粒", "duration": "04:18", "emoji": "🎐" }
+    {
+      "title": "夜的钢琴曲",
+      "artist": "石进",
+      "duration": "04:32",
+      "emoji": "🌙"
+    },
+    {
+      "title": "Sunset Lover",
+      "artist": "Petit Biscuit",
+      "duration": "03:53",
+      "emoji": "🌇"
+    },
+    {
+      "title": "River Flows in You",
+      "artist": "Yiruma",
+      "duration": "03:46",
+      "emoji": "🌊"
+    },
+    {
+      "title": "小半",
+      "artist": "陈粒",
+      "duration": "04:18",
+      "emoji": "🎐"
+    }
   ],
   "tree": [
-    { "title": "写作", "desc": "把想法变成文字", "emoji": "✍️" },
-    { "title": "摄影", "desc": "收集人间光影", "emoji": "📸" },
-    { "title": "音乐", "desc": "私藏的旋律清单", "emoji": "🎵" },
-    { "title": "代码", "desc": "造点有趣的小东西", "emoji": "💻" },
-    { "title": "旅行", "desc": "去没去过的地方", "emoji": "🧭" },
-    { "title": "阅读", "desc": "在别人的故事里迷路", "emoji": "📚" }
+    {
+      "title": "写作",
+      "desc": "把想法变成文字",
+      "emoji": "✍️"
+    },
+    {
+      "title": "摄影",
+      "desc": "收集人间光影",
+      "emoji": "📸"
+    },
+    {
+      "title": "音乐",
+      "desc": "私藏的旋律清单",
+      "emoji": "🎵"
+    },
+    {
+      "title": "代码",
+      "desc": "造点有趣的小东西",
+      "emoji": "💻"
+    },
+    {
+      "title": "旅行",
+      "desc": "去没去过的地方",
+      "emoji": "🧭"
+    },
+    {
+      "title": "阅读",
+      "desc": "在别人的故事里迷路",
+      "emoji": "📚"
+    }
   ],
   "moments": [
-    { "text": "今天的晚霞像打翻的橘子汽水。", "time": "2 小时前", "emoji": "🌇" },
-    { "text": "把房间收拾干净，心情也跟着亮堂起来。", "time": "昨天", "emoji": "🧹" },
-    { "text": "听到一首很久以前喜欢的歌，瞬间回到那个夏天。", "time": "3 天前", "emoji": "🎧" },
-    { "text": "慢慢来，谁还不是一边跌倒一边长大。", "time": "上周", "emoji": "🌱" }
+    {
+      "text": "今天的晚霞像打翻的橘子汽水。",
+      "time": "2 小时前",
+      "emoji": "🌇"
+    },
+    {
+      "text": "把房间收拾干净，心情也跟着亮堂起来。",
+      "time": "昨天",
+      "emoji": "🧹"
+    },
+    {
+      "text": "听到一首很久以前喜欢的歌，瞬间回到那个夏天。",
+      "time": "3 天前",
+      "emoji": "🎧"
+    },
+    {
+      "text": "慢慢来，谁还不是一边跌倒一边长大。",
+      "time": "上周",
+      "emoji": "🌱"
+    }
   ],
   "friends": [
-    { "name": "小 A 的博客", "desc": "一个热爱前端的开发者", "url": "#", "emoji": "A" },
-    { "name": "山野来信", "desc": "记录徒步与山川湖海", "url": "#", "emoji": "⛰️" },
-    { "name": "深夜书房", "desc": "读书、写字、发呆", "url": "#", "emoji": "📖" },
-    { "name": "像素花园", "desc": "关于游戏与设计的碎碎念", "url": "#", "emoji": "🎮" }
+    {
+      "name": "小 A 的博客",
+      "desc": "一个热爱前端的开发者",
+      "url": "#",
+      "emoji": "A"
+    },
+    {
+      "name": "山野来信",
+      "desc": "记录徒步与山川湖海",
+      "url": "#",
+      "emoji": "⛰️"
+    },
+    {
+      "name": "深夜书房",
+      "desc": "读书、写字、发呆",
+      "url": "#",
+      "emoji": "📖"
+    },
+    {
+      "name": "像素花园",
+      "desc": "关于游戏与设计的碎碎念",
+      "url": "#",
+      "emoji": "🎮"
+    }
   ]
 }

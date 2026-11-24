@@ -74,6 +74,7 @@ def nav_html(active):
 def background_html():
     return '''
     <div class="bg-slides" id="bgSlides"></div>
+    <div class="bg-photo"></div>
     <div class="bg-overlay"></div>
     <div class="bg-gradient"></div>
     <div class="bg-blobs"><div class="blob one"></div><div class="blob two"></div></div>
@@ -107,7 +108,7 @@ def shell(title, active, content):
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f6f7ff">
+  <meta name="theme-color" content="#ffffff">
   <meta name="description" content="%s">
   <title>%s · %s</title>
   <link rel="icon" href="assets/img/avatar.svg" type="image/svg+xml">

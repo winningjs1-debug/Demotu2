@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" width="420" height="420">
+  <defs>
+    <radialGradient id="plateBody" cx="42%" cy="34%" r="72%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".52" stop-color="#f7f8fa"/>
+      <stop offset=".82" stop-color="#e8ecf1"/>
+      <stop offset="1" stop-color="#d5dae1"/>
+    </radialGradient>
+    <radialGradient id="plateInner" cx="50%" cy="44%" r="60%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".7" stop-color="#f4f6f9"/>
+      <stop offset="1" stop-color="#e4e8ee"/>
+    </radialGradient>
+    <linearGradient id="rimSheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".45" stop-color="#cfd5dd"/>
+      <stop offset=".7" stop-color="#f2f4f7"/>
+      <stop offset="1" stop-color="#bcc3cc"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 外沿阴影 -->
+  <circle cx="210" cy="212" r="196" fill="#c9cfd7" opacity=".18"/>
+  <!-- 盘缘 -->
+  <circle cx="210" cy="210" r="196" fill="url(#plateBody)" stroke="url(#rimSheen)" stroke-width="1.4"/>
+  <!-- 珠边 -->
+  <circle cx="210" cy="210" r="188" fill="none" stroke="#c3cad2" stroke-width="3.4"
+          stroke-linecap="round" stroke-dasharray="0.1 8.6" opacity=".85"/>
+  <circle cx="210" cy="210" r="178" fill="none" stroke="#d7dce3" stroke-width=".8"/>
+  <!-- 环形雕花 -->
+  <g fill="none" stroke="#cdd3db" stroke-width=".9" opacity=".9">
+    <circle cx="210" cy="210" r="164"/>
+    <circle cx="210" cy="210" r="160" stroke-dasharray="1.5 4.2"/>
+  </g>
+  <!-- 花叶浮雕环 -->
+  <g fill="none" stroke="#c6cdd5" stroke-width="1" opacity=".8">
+    <g id="leafRing">
+      <path d="M210 52c9 8 9 20 0 28-9-8-9-20 0-28z"/>
+      <path d="M210 62v12" stroke-width=".6"/>
+    </g>
+    <use href="#leafRing" transform="rotate(30 210 210)"/>
+    <use href="#leafRing" transform="rotate(60 210 210)"/>
+    <use href="#leafRing" transform="rotate(90 210 210)"/>
+    <use href="#leafRing" transform="rotate(120 210 210)"/>
+    <use href="#leafRing" transform="rotate(150 210 210)"/>
+    <use href="#leafRing" transform="rotate(180 210 210)"/>
+    <use href="#leafRing" transform="rotate(210 210 210)"/>
+    <use href="#leafRing" transform="rotate(240 210 210)"/>
+    <use href="#leafRing" transform="rotate(270 210 210)"/>
+    <use href="#leafRing" transform="rotate(300 210 210)"/>
+    <use href="#leafRing" transform="rotate(330 210 210)"/>
+  </g>
+  <!-- 盘心 -->
+  <circle cx="210" cy="210" r="126" fill="url(#plateInner)" stroke="#d3d8e0" stroke-width="1"/>
+  <circle cx="210" cy="210" r="108" fill="none" stroke="#dbe0e6" stroke-width=".9"/>
+  <circle cx="210" cy="210" r="104" fill="none" stroke="#e2e6ec" stroke-width=".6" stroke-dasharray="1 5"/>
+  <!-- 盘心高光 -->
+  <ellipse cx="182" cy="180" rx="58" ry="40" fill="#ffffff" opacity=".75"/>
+  <!-- 中心小浮雕 -->
+  <g fill="none" stroke="#cdd3db" stroke-width=".9" opacity=".75">
+    <circle cx="210" cy="210" r="34"/>
+    <path d="M210 182c8 10 13 18 13 26a13 13 0 1 1-26 0c0-8 5-16 13-26z"/>
+  </g>
+  <!-- 高光弧 -->
+  <path d="M78 300a170 170 0 0 1 44-206" fill="none" stroke="#ffffff" stroke-width="6" opacity=".55" stroke-linecap="round"/>
+  <path d="M330 110a170 170 0 0 1 24 92" fill="none" stroke="#ffffff" stroke-width="4" opacity=".4" stroke-linecap="round"/>
+</svg>
