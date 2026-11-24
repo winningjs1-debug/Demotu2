@@ -25,6 +25,7 @@ def safe_json(data):
 
 NAV = [
     ('home', '首页', 'index.html'),
+    ('social', '社区', 'social.html'),
     ('projects', '项目', 'projects.html'),
     ('timeline', '归档', 'timeline.html'),
     ('photowall', '照片墙', 'photowall.html'),
@@ -114,8 +115,16 @@ def shell(title, active, content):
   <link rel="icon" href="assets/img/avatar.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/style.css">
   <script>window.SITE_CONFIG = %s;</script>
+  <script src="assets/js/skin.js"></script>
 </head>
 <body>
+  <button class="skin-fab" id="skinFab" aria-label="切换装修风格" title="切换装修风格">❀</button>
+  <div class="skin-picker" id="skinPicker">
+    <div class="skin-picker-head">选择装修风格</div>
+    <button data-skin-btn="A"><span class="sw a"></span><b>天使之窗</b><small>银白手账</small></button>
+    <button data-skin-btn="B"><span class="sw b"></span><b>玫瑰兔宝</b><small>粉白梦境</small></button>
+    <button data-skin-btn="C"><span class="sw c"></span><b>复古相簿</b><small>银金拼贴</small></button>
+  </div>
   %s
   %s
   <main class="page-main">
