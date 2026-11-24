@@ -452,31 +452,66 @@ html.dark .site-header {
 }
 .avatar-frame img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #fff; }
 
-/* Ins 主页头像：方形蕾丝头像框（右下角小花装饰） */
+/* Ins 主页头像：圆形金边蕾丝头像框（流光扫过 + 柔光呼吸） */
 .ig-avatar-col { display: flex; align-items: center; justify-content: center; }
 .ig-avatar-ring {
   position: relative;
   width: 152px; height: 152px;
   flex-shrink: 0;
-  border-radius: 30px;
+  border-radius: 50%;
   padding: 17px;
   background: url("../img/avatar-lace.svg") center / 100% 100% no-repeat;
   filter: drop-shadow(0 8px 20px rgba(192,132,152,0.28));
+  animation: gold-ring-glow 4.8s ease-in-out infinite;
   transition: transform 0.6s var(--ease);
+}
+/* 只让高光在金边环带里转动，头像本身保持静止 */
+.ig-avatar-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  background: conic-gradient(from 0deg,
+    transparent 0deg 58deg,
+    rgba(255,244,205,.18) 72deg,
+    rgba(255,253,238,.96) 86deg,
+    rgba(255,232,176,.55) 96deg,
+    transparent 114deg 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 24%), #000 calc(100% - 23%));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 24%), #000 calc(100% - 23%));
+  animation: gold-ring-sweep 5.2s linear infinite;
 }
 .ig-avatar-ring::after {
   content: "";
   position: absolute;
   left: -6px;
   bottom: -4px;
+  z-index: 3;
   width: 30px;
   height: 30px;
   background: url("../img/avatar-flower.svg") center / contain no-repeat;
   pointer-events: none;
 }
 .ig-profile:hover .ig-avatar-ring { transform: rotate(4deg) scale(1.02); }
-.ig-avatar-ring .avatar-frame { width: 100%; height: 100%; border-radius: 18px; box-shadow: 0 4px 14px rgba(150,128,142,0.18); }
-.ig-avatar-ring .avatar-frame img { border-radius: 18px; }
+.ig-avatar-ring .avatar-frame {
+  position: relative;
+  z-index: 2;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(150,128,142,0.18), inset 0 0 0 1px rgba(224,194,142,.55);
+}
+.ig-avatar-ring .avatar-frame img { border-radius: 50%; object-fit: cover; display: block; }
+@keyframes gold-ring-glow {
+  0%, 100% { filter: drop-shadow(0 8px 20px rgba(192,132,152,.28)) drop-shadow(0 0 3px rgba(224,186,120,.25)); }
+  50%      { filter: drop-shadow(0 10px 24px rgba(192,132,152,.34)) drop-shadow(0 0 13px rgba(240,207,146,.75)); }
+}
+@keyframes gold-ring-sweep { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .ig-avatar-ring, .ig-avatar-ring::before { animation: none; }
+}
 
 .profile-name {
   margin: 0 0 8px;
