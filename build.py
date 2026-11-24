@@ -12,7 +12,7 @@ import random
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 # 静态资源版本号：每次样式/脚本改动后更新，强制 CDN 与浏览器刷新缓存
-ASSET_VER = '202611241812'
+ASSET_VER = '202611241900'
 with open(os.path.join(BASE, 'site.config.json'), 'r', encoding='utf-8') as f:
     cfg = json.load(f)
 
@@ -153,6 +153,7 @@ def shell(title, active, content):
   </main>
   %s
   <script src="assets/js/profile.js?v=__ASSET_VER__"></script>
+  <script src="assets/js/site-data.js?v=__ASSET_VER__"></script>
   <script src="assets/js/main.js?v=__ASSET_VER__"></script>
 </body>
 </html>
@@ -175,11 +176,13 @@ def socials_html():
         icon = ICONS.get(item.get('icon'), ICONS['rss'])
         stroke = '' if item.get('icon') in ('github', 'gitee', 'qq', 'wechat') else 'stroke="currentColor" fill="none"'
         out.append(
-            '<a class="social-icon" href="%s" title="%s" aria-label="%s">'
+            '<a class="social-icon" data-icon="%s" href="%s" title="%s" aria-label="%s">'
             '<svg %s viewBox="0 0 24 24">%s</svg></a>'
-            % (esc(item.get('url', '#')), esc(item.get('label', '')), esc(item.get('label', '')), stroke, icon)
+            % (esc(item.get('icon', 'link')), esc(item.get('url', '#')),
+               esc(item.get('label', '')), esc(item.get('label', '')), stroke, icon)
         )
-    return ''.join(out)
+    return '<div class="ig-bio-links" data-social-links>' + ''.join(out) + \
+        '<a class="ig-reward-link" href="about.html">&#9749; 赞赏我</a></div>'
 
 
 def home_content():
@@ -215,14 +218,14 @@ def home_content():
         post_html.append('''
         <a class="ig-post searchable reveal" href="%s"
            data-title="%s" data-desc="%s" data-tags="%s">
-          <img src="%s" alt="%s" loading="lazy">
+          <img src="%s" alt="%s" data-post-index="%d" loading="lazy">
           <span class="ig-post-kind">%s</span>
           <div class="ig-post-hover">
             <span>&#10084; %d</span><span>&#128172; %d</span>
           </div>
         </a>''' % (
             esc(link), esc(title), esc(meta), esc(kind + ' 文章 杂谈 照片'),
-            esc(cover), esc(title), esc(kind),
+            esc(cover), esc(title), i, esc(kind),
             like_nums[i % len(like_nums)], comment_nums[i % len(comment_nums)],
         ))
 
@@ -287,7 +290,7 @@ def home_content():
           <p class="ig-bio-name" data-profile="name">%s</p>
           <p class="ig-bio-text" data-profile="bio">%s</p>
           <div class="ig-status" id="statusCard"><span class="ig-status-dot"></span><span class="status-text" id="statusText">CONNECTING...</span></div>
-          <div class="ig-bio-links">%s<a class="ig-reward-link" href="about.html">&#9749; 赞赏我</a></div>
+          %s
         </div>
       </div>
     </section>
