@@ -9,6 +9,8 @@ import html
 import os
 
 BASE = os.path.dirname(os.path.abspath(__file__))
+# 静态资源版本号：每次样式/脚本改动后更新，强制 CDN 与浏览器刷新缓存
+ASSET_VER = '202611241506'
 with open(os.path.join(BASE, 'site.config.json'), 'r', encoding='utf-8') as f:
     cfg = json.load(f)
 
@@ -104,7 +106,7 @@ def footer_html():
 
 def shell(title, active, content):
     config_js = safe_json(cfg)
-    return '''<!DOCTYPE html>
+    html = '''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -113,9 +115,9 @@ def shell(title, active, content):
   <meta name="description" content="%s">
   <title>%s · %s</title>
   <link rel="icon" href="assets/img/avatar.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=__ASSET_VER__">
   <script>window.SITE_CONFIG = %s;</script>
-  <script src="assets/js/skin.js"></script>
+  <script src="assets/js/skin.js?v=__ASSET_VER__"></script>
 </head>
 <body>
   <button class="skin-fab" id="skinFab" aria-label="切换装修风格" title="切换装修风格">❀</button>
@@ -133,8 +135,8 @@ def shell(title, active, content):
     %s
   </main>
   %s
-  <script src="assets/js/profile.js"></script>
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/profile.js?v=__ASSET_VER__"></script>
+  <script src="assets/js/main.js?v=__ASSET_VER__"></script>
 </body>
 </html>
 ''' % (
@@ -147,6 +149,7 @@ def shell(title, active, content):
         content,
         footer_html(),
     )
+    return html.replace('__ASSET_VER__', ASSET_VER)
 
 
 def socials_html():
