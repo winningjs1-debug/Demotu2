@@ -7,10 +7,12 @@
 import json
 import html
 import os
+import random
+import random
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 # 静态资源版本号：每次样式/脚本改动后更新，强制 CDN 与浏览器刷新缓存
-ASSET_VER = '202611241740'
+ASSET_VER = '202611241812'
 with open(os.path.join(BASE, 'site.config.json'), 'r', encoding='utf-8') as f:
     cfg = json.load(f)
 
@@ -194,6 +196,16 @@ def home_content():
         posts.append((c.get('cover', ''), c.get('title', ''), c.get('date', ''), '杂谈', 'chatter.html'))
     for ph in photos:
         posts.append((ph.get('url', ''), ph.get('title', ''), ph.get('place', ''), '照片', 'photowall.html'))
+
+    # 首页九宫格统一使用法式蕾丝兔系列封面，做固定种子的随机排布，
+    # 每次构建顺序一致，页面加载时不会闪动或重排。
+    post_images = ['assets/img/posts/post-lace-%02d.jpg' % i for i in range(1, 10)]
+    rng = random.Random(20261124)
+    image_pool = post_images[:]
+    image_pool += rng.sample(post_images, max(0, len(posts) - len(post_images)))
+    rng.shuffle(image_pool)
+    posts = [(image_pool[i], title, meta, kind, link)
+             for i, (cover, title, meta, kind, link) in enumerate(posts)]
 
     like_nums = [268, 142, 386, 97, 231, 158, 412, 76, 203, 315, 184, 129]
     comment_nums = [24, 11, 38, 7, 19, 13, 45, 5, 22, 30, 16, 9]
