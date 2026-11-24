@@ -10,7 +10,7 @@ import os
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 # 静态资源版本号：每次样式/脚本改动后更新，强制 CDN 与浏览器刷新缓存
-ASSET_VER = '202611241506'
+ASSET_VER = '202611241740'
 with open(os.path.join(BASE, 'site.config.json'), 'r', encoding='utf-8') as f:
     cfg = json.load(f)
 
@@ -110,9 +110,24 @@ def shell(title, active, content):
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#ffffff">
   <meta name="description" content="%s">
+  <script>
+  (function () {
+    try {
+      if (location.protocol.indexOf('http') !== 0) return;
+      var u = new URL(location.href);
+      if (!u.searchParams.has('v')) {
+        u.searchParams.set('v', String(Date.now()));
+        location.replace(u.pathname + u.search + u.hash);
+      }
+    } catch (e) {}
+  })();
+  </script>
   <title>%s · %s</title>
   <link rel="icon" href="assets/img/avatar.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/style.css?v=__ASSET_VER__">
