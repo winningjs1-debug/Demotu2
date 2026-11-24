@@ -45,22 +45,22 @@
     <div class="soc-profile-body">
       <div class="soc-avatar-wrap">
         <div class="soc-avatar" id="avatarBox">
-          <img id="avatarImg" src="assets/img/avatar.svg" alt="头像">
-          <button class="avatar-edit" id="avatarEdit" title="上传头像">✎</button>
+          <img id="avatarImg" src="assets/img/avatar.svg" alt="头像" data-profile="avatar">
+          <button class="avatar-edit" id="avatarEdit" title="编辑资料与头像">✎</button>
         </div>
         <input type="file" id="avatarInput" accept="image/*" hidden>
       </div>
       <div class="soc-profile-info">
         <div class="soc-name-row">
-          <h1 id="profName">DemoTu.com</h1>
+          <h1 id="profName" data-profile="name">DemoTu.com</h1>
           <span class="soc-verified">✓</span>
         </div>
-        <p class="soc-handle">@demotu · 记录生活 · 分享热爱</p>
-        <p class="soc-bio" id="profBio">把每一天的小确幸，写成手账里的一页。</p>
+        <p class="soc-handle"><span id="profHandle" data-profile="handle">@demotu</span> · 记录生活 · 分享热爱</p>
+        <p class="soc-bio" id="profBio" data-profile="bio">把每一天的小确幸，写成手账里的一页。</p>
         <div class="soc-stats">
           <div><strong id="statPosts">0</strong><span>帖子</span></div>
-          <div><strong id="statLikes">0</strong><span>获赞</span></div>
-          <div><strong id="statFollow">0</strong><span>关注</span></div>
+          <div><strong id="statLikes">5.2w</strong><span>获赞</span></div>
+          <div><strong id="statFollow">5.2w</strong><span>粉丝</span></div>
         </div>
       </div>
       <button class="soc-edit-btn" id="editProfileBtn">编辑资料</button>
@@ -70,7 +70,7 @@
   <!-- 发帖框 -->
   <section class="soc-compose glass-card">
     <div class="compose-top">
-      <img class="compose-avatar" id="composeAvatar" src="assets/img/avatar.svg" alt="">
+      <img class="compose-avatar" id="composeAvatar" src="assets/img/avatar.svg" alt="" data-profile="avatar">
       <textarea id="composeText" placeholder="分享此刻的心情…" rows="1" maxlength="500"></textarea>
     </div>
     <div class="compose-actions">
@@ -87,15 +87,25 @@
   <div class="soc-empty" id="feedEmpty" hidden>还没有动态，发布第一条吧 ❀</div>
 </main>
 
-<!-- 编辑资料弹窗 -->
+<!-- 编辑资料弹窗（头像 / 昵称 / 账号 / 简介一步完成） -->
 <div class="modal" id="editModal" hidden>
-  <div class="modal-card">
+  <div class="modal-card edit-card">
     <h3>编辑个人资料</h3>
-    <label>昵称<input type="text" id="editName" maxlength="24"></label>
-    <label>简介<textarea id="editBio" rows="3" maxlength="100"></textarea></label>
+    <div class="edit-avatar-row">
+      <div class="edit-avatar"><img id="editAvatarPreview" src="assets/img/avatar.svg" alt="头像预览"></div>
+      <div class="edit-avatar-tools">
+        <button class="btn-soft" id="editAvatarPick">更换头像</button>
+        <button class="btn-text" id="editAvatarReset">恢复默认</button>
+        <small>支持 JPG / PNG，可缩放拖动裁剪</small>
+      </div>
+      <input type="file" id="editAvatarInput" accept="image/*" hidden>
+    </div>
+    <label>昵称<input type="text" id="editName" maxlength="24" placeholder="DemoTu.com"><small class="field-count" id="nameCount">0 / 24</small></label>
+    <label>账号<span class="handle-field"><i>@</i><input type="text" id="editHandle" maxlength="20" placeholder="demotu"></span></label>
+    <label>简介<textarea id="editBio" rows="3" maxlength="100" placeholder="写一句属于你的签名…"></textarea><small class="field-count" id="bioCount">0 / 100</small></label>
     <div class="modal-actions">
       <button class="btn-ghost" id="editCancel">取消</button>
-      <button class="btn-primary" id="editSave">保存</button>
+      <button class="btn-primary" id="editSave">保存并同步</button>
     </div>
   </div>
 </div>
@@ -103,8 +113,10 @@
 <!-- 头像裁剪弹窗 -->
 <div class="modal" id="cropModal" hidden>
   <div class="modal-card crop-card">
-    <h3>裁剪头像</h3>
-    <div class="crop-stage"><img id="cropImg" alt="待裁剪图片"></div>
+    <h3>调整头像</h3>
+    <div class="crop-stage" id="cropStage"><img id="cropImg" alt="待裁剪图片"></div>
+    <label class="crop-zoom">缩放<input type="range" id="cropZoom" min="1" max="3" step="0.01" value="1"></label>
+    <p class="crop-tip">拖动图片调整位置，保存后自动同步到全站</p>
     <div class="modal-actions">
       <button class="btn-ghost" id="cropCancel">取消</button>
       <button class="btn-primary" id="cropSave">使用这张</button>
@@ -126,6 +138,7 @@
 
 <div class="toast" id="toast"></div>
 
+<script src="assets/js/profile.js"></script>
 <script src="assets/js/social.js"></script>
 </body>
 </html>

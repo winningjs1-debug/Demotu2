@@ -1,17 +1,30 @@
 /* DemoTu.com 社区 · 本地存储版 Ins 社交功能
- * 头像上传裁剪 / 资料编辑 / 发帖(文字+图片) / 点赞 / 评论 / 删除
- * 数据存 localStorage，刷新不丢，三端可运行。 */
+ * 发帖(文字+图片) / 点赞 / 评论 / 删除 / 资料编辑
+ * 资料通过 profile.js 全站共享：社区改一次，首页 / 关于页 / 动态流全部同步。
+ */
 (function () {
   'use strict';
   var KEY = 'demotu-social-v1';
+  var P = window.DemoTuProfile;
   var DEFAULT_AVATAR = 'assets/img/avatar.svg';
+
+  function profile() { return P ? P.get() : { name: 'DemoTu.com', handle: 'demotu', bio: '', avatar: DEFAULT_AVATAR }; }
+  function defaultAvatar() { return (P && P.DEFAULT.avatar) || DEFAULT_AVATAR; }
+
+  function migrateProfile() {
+    try {
+      if (localStorage.getItem('demotu-profile-v1')) return;
+      var old = JSON.parse(localStorage.getItem(KEY));
+      if (old && old.profile && P) P.set(old.profile);
+    } catch (e) {}
+  }
 
   function load() {
     try {
       var d = JSON.parse(localStorage.getItem(KEY));
-      if (d && typeof d === 'object') return d;
+      if (d && Array.isArray(d.posts)) return { posts: d.posts };
     } catch (e) {}
-    return { profile: { name: 'DemoTu.com', bio: '把每一天的小确幸，写成手账里的一页。', avatar: DEFAULT_AVATAR }, posts: seedPosts() };
+    return { posts: seedPosts() };
   }
   function seedPosts() {
     return [
@@ -19,11 +32,13 @@
       { id: 'seed2', text: '收到一束玫瑰，想把这份温柔也分给你。❀', image: 'assets/img/collab/rose-bunny.jpg', time: Date.now() - 172800000, likes: 28, liked: false, comments: [] }
     ];
   }
+  migrateProfile();
   var state = load();
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { toast('存储空间不足'); } }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify({ posts: state.posts })); } catch (e) { toast('存储空间不足'); } }
 
   function $(id) { return document.getElementById(id); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
   function timeAgo(ts) {
     var d = Date.now() - ts, m = Math.floor(d / 60000), h = Math.floor(m / 60), day = Math.floor(h / 24);
     if (m < 1) return '刚刚';
@@ -40,19 +55,19 @@
 
   /* ---------- 渲染 ---------- */
   function renderProfile() {
-    var p = state.profile;
-    $('avatarImg').src = p.avatar || DEFAULT_AVATAR;
-    $('composeAvatar').src = p.avatar || DEFAULT_AVATAR;
+    var p = profile();
+    $('avatarImg').src = p.avatar || defaultAvatar();
+    $('composeAvatar').src = p.avatar || defaultAvatar();
     $('profName').textContent = p.name || 'DemoTu.com';
     $('profBio').textContent = p.bio || '';
     $('statPosts').textContent = state.posts.length;
-    var likes = state.posts.reduce(function (n, x) { return n + (x.likes || 0); }, 0);
-    $('statLikes').textContent = likes;
-    $('statFollow').textContent = 128 + state.posts.length;
+    $('statLikes').textContent = '5.2w';
+    $('statFollow').textContent = '5.2w';
   }
   function renderFeed() {
     var feed = $('feed'), empty = $('feedEmpty');
     var posts = state.posts.slice().sort(function (a, b) { return b.time - a.time; });
+    var p = profile();
     $('feedCount').textContent = '共 ' + posts.length + ' 条';
     if (!posts.length) { feed.innerHTML = ''; empty.hidden = false; return; }
     empty.hidden = true;
@@ -61,8 +76,8 @@
       var comments = (post.comments || []);
       var media = post.image ? '<div class="post-image"><img src="' + esc(post.image) + '" alt="帖子图片" loading="lazy"></div>' : '';
       return '<article class="post-card glass-card" data-id="' + esc(post.id) + '">' +
-        '<div class="post-head"><img class="post-avatar" src="' + esc(state.profile.avatar || DEFAULT_AVATAR) + '" alt="">' +
-        '<div class="post-meta"><b>' + esc(state.profile.name) + '</b><small>' + timeAgo(post.time) + ' · @demotu</small></div>' +
+        '<div class="post-head"><img class="post-avatar" src="' + esc(p.avatar || defaultAvatar()) + '" alt="">' +
+        '<div class="post-meta"><b>' + esc(p.name) + '</b><small>' + timeAgo(post.time) + ' · @' + esc(p.handle || 'demotu') + '</small></div>' +
         (mine ? '<button class="post-del" data-act="del" title="删除">⋯</button>' : '') + '</div>' +
         (post.text ? '<p class="post-text">' + esc(post.text) + '</p>' : '') + media +
         '<div class="post-actions">' +
@@ -124,7 +139,8 @@
     } else if (act === 'comment') {
       openComments(id);
     } else if (act === 'share') {
-      var msg = (state.profile.name || 'DemoTu') + ' 的动态：' + (post.text || '分享了一张图片') + ' — ' + location.href;
+      var p = profile();
+      var msg = (p.name || 'DemoTu') + ' 的动态：' + (post.text || '分享了一张图片') + ' — ' + location.href;
       if (navigator.share) navigator.share({ title: 'DemoTu.com 社区', text: msg }).catch(function () {});
       else if (navigator.clipboard) { navigator.clipboard.writeText(msg); toast('链接已复制'); }
       else toast('分享：' + msg);
@@ -142,58 +158,138 @@
   }
   function renderComments(post) {
     var list = (post.comments || []);
-    $('commentList').innerHTML = list.length ? list.map(function (c, i) {
+    $('commentList').innerHTML = list.length ? list.map(function (c) {
       return '<div class="comment-item"><b>' + esc(c.name) + '</b><p>' + esc(c.text) + '</p><small>' + timeAgo(c.time) + '</small></div>';
     }).join('') : '<p class="no-comment">还没有评论，来说第一句吧～</p>';
   }
   function sendComment() {
     var input = $('commentInput'), text = input.value.trim(); if (!text || !currentCommentPost) return;
     var post = state.posts.find(function (p) { return p.id === currentCommentPost; }); if (!post) return;
+    var p = profile();
     post.comments = post.comments || [];
-    post.comments.push({ name: state.profile.name || '我', text: text, time: Date.now() });
+    post.comments.push({ name: p.name || '我', text: text, time: Date.now() });
     input.value = ''; save(); renderComments(post); renderFeed(); toast('评论成功');
   }
   $('commentSend').addEventListener('click', sendComment);
   $('commentInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') sendComment(); });
   $('commentModal').addEventListener('click', function (e) { if (e.target === this) this.hidden = true; });
 
-  /* ---------- 资料编辑 ---------- */
-  $('editProfileBtn').addEventListener('click', function () {
-    $('editName').value = state.profile.name || '';
-    $('editBio').value = state.profile.bio || '';
+  /* ---------- 资料编辑：头像 / 昵称 / 账号 / 简介一处搞定 ---------- */
+  var pendingAvatar = null;
+  function updateCounts() {
+    $('nameCount').textContent = $('editName').value.length + ' / 24';
+    $('bioCount').textContent = $('editBio').value.length + ' / 100';
+  }
+  function openEdit() {
+    var p = profile();
+    pendingAvatar = null;
+    $('editName').value = p.name || '';
+    $('editHandle').value = p.handle || '';
+    $('editBio').value = p.bio || '';
+    $('editAvatarPreview').src = p.avatar || defaultAvatar();
+    updateCounts();
     $('editModal').hidden = false;
-  });
+    setTimeout(function () { $('editName').focus(); }, 60);
+  }
+  $('editProfileBtn').addEventListener('click', openEdit);
+  $('avatarEdit').addEventListener('click', openEdit);
   $('editCancel').addEventListener('click', function () { $('editModal').hidden = true; });
   $('editModal').addEventListener('click', function (e) { if (e.target === this) this.hidden = true; });
+  $('editName').addEventListener('input', updateCounts);
+  $('editBio').addEventListener('input', updateCounts);
   $('editSave').addEventListener('click', function () {
-    state.profile.name = $('editName').value.trim() || 'DemoTu.com';
-    state.profile.bio = $('editBio').value.trim();
-    save(); renderAll(); $('editModal').hidden = true; toast('资料已更新');
+    var name = $('editName').value.trim() || 'DemoTu.com';
+    var handle = $('editHandle').value.trim().replace(/^@/, '').replace(/\s+/g, '');
+    if (!handle) handle = 'demotu';
+    if (!/^[\w\u4e00-\u9fa5.-]+$/.test(handle)) { toast('账号只能包含中英文、数字、_ . -'); return; }
+    var bio = $('editBio').value.trim();
+    var patch = { name: name, handle: handle, bio: bio };
+    if (pendingAvatar) patch.avatar = pendingAvatar;
+    if (P) P.set(patch);
+    save();
+    $('editModal').hidden = true;
+    renderAll();
+    toast('资料已更新，全站已同步 ❀');
   });
-
-  /* ---------- 头像上传 + 简单方形裁剪 ---------- */
-  $('avatarEdit').addEventListener('click', function () { $('avatarInput').click(); });
-  $('avatarInput').addEventListener('change', function () {
+  $('editAvatarReset').addEventListener('click', function () {
+    pendingAvatar = defaultAvatar();
+    $('editAvatarPreview').src = defaultAvatar();
+    toast('已恢复默认头像，保存后生效');
+  });
+  $('editAvatarPick').addEventListener('click', function () { $('editAvatarInput').click(); });
+  $('editAvatarInput').addEventListener('change', function () {
     var f = this.files && this.files[0]; if (!f) return;
     var reader = new FileReader();
-    reader.onload = function () {
-      $('cropImg').src = reader.result;
+    reader.onload = function () { setupCrop(reader.result); };
+    reader.readAsDataURL(f);
+    this.value = '';
+  });
+
+  /* ---------- 头像智能裁剪：可缩放 + 可拖动，手机电脑通用 ---------- */
+  var crop = { base: 1, zoom: 1, dx: 0, dy: 0, size: 260, ready: false, dragging: false, sx: 0, sy: 0, ox: 0, oy: 0 };
+  function setupCrop(src) {
+    var img = $('cropImg');
+    crop.ready = false;
+    crop.zoom = 1; crop.dx = 0; crop.dy = 0;
+    $('cropZoom').value = 1;
+    img.onload = function () {
+      var stage = $('cropStage').getBoundingClientRect();
+      crop.size = Math.max(160, Math.min(stage.width, stage.height) || 260);
+      crop.base = Math.max(crop.size / img.naturalWidth, crop.size / img.naturalHeight);
+      crop.ready = true;
+      renderCrop();
       $('cropModal').hidden = false;
     };
-    reader.readAsDataURL(f);
+    img.src = src;
+  }
+  function renderCrop() {
+    var img = $('cropImg'); if (!crop.ready) return;
+    var w = img.naturalWidth * crop.base * crop.zoom;
+    var h = img.naturalHeight * crop.base * crop.zoom;
+    var limX = Math.max(0, (w - crop.size) / 2);
+    var limY = Math.max(0, (h - crop.size) / 2);
+    crop.dx = clamp(crop.dx, -limX, limX);
+    crop.dy = clamp(crop.dy, -limY, limY);
+    img.style.width = w + 'px';
+    img.style.height = h + 'px';
+    img.style.transform = 'translate(calc(-50% + ' + crop.dx + 'px), calc(-50% + ' + crop.dy + 'px))';
+  }
+  $('cropZoom').addEventListener('input', function () { crop.zoom = parseFloat(this.value) || 1; renderCrop(); });
+  var stageEl = $('cropStage');
+  stageEl.addEventListener('pointerdown', function (e) {
+    if (!crop.ready) return;
+    crop.dragging = true; crop.sx = e.clientX; crop.sy = e.clientY; crop.ox = crop.dx; crop.oy = crop.dy;
+    stageEl.setPointerCapture(e.pointerId); stageEl.classList.add('dragging');
+  });
+  stageEl.addEventListener('pointermove', function (e) {
+    if (!crop.dragging) return;
+    crop.dx = crop.ox + (e.clientX - crop.sx);
+    crop.dy = crop.oy + (e.clientY - crop.sy);
+    renderCrop();
+  });
+  ['pointerup', 'pointercancel'].forEach(function (evt) {
+    stageEl.addEventListener(evt, function () { crop.dragging = false; stageEl.classList.remove('dragging'); });
   });
   $('cropCancel').addEventListener('click', function () { $('cropModal').hidden = true; });
   $('cropModal').addEventListener('click', function (e) { if (e.target === this) this.hidden = true; });
   $('cropSave').addEventListener('click', function () {
-    var img = $('cropImg');
+    var img = $('cropImg'); if (!crop.ready) return;
     try {
-      var size = Math.min(img.naturalWidth, img.naturalHeight);
-      var sx = (img.naturalWidth - size) / 2, sy = (img.naturalHeight - size) / 2;
-      var canvas = document.createElement('canvas'); canvas.width = canvas.height = 320;
-      canvas.getContext('2d').drawImage(img, sx, sy, size, size, 0, 0, 320, 320);
-      state.profile.avatar = canvas.toDataURL('image/jpeg', 0.86);
-      save(); renderAll(); $('cropModal').hidden = true; toast('头像已更新');
-    } catch (err) { toast('图片处理失败'); }
+      var scale = crop.base * crop.zoom;
+      var side = crop.size / scale;
+      var cx = img.naturalWidth / 2 - crop.dx / scale;
+      var cy = img.naturalHeight / 2 - crop.dy / scale;
+      var sx = clamp(cx - side / 2, 0, Math.max(0, img.naturalWidth - side));
+      var sy = clamp(cy - side / 2, 0, Math.max(0, img.naturalHeight - side));
+      var canvas = document.createElement('canvas'); canvas.width = canvas.height = 400;
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 400, 400);
+      ctx.drawImage(img, sx, sy, side, side, 0, 0, 400, 400);
+      pendingAvatar = canvas.toDataURL('image/jpeg', 0.9);
+      $('editAvatarPreview').src = pendingAvatar;
+      $('cropModal').hidden = true;
+      toast('头像已选好，保存资料后同步 ❀');
+    } catch (err) { toast('图片处理失败，请换一张试试'); }
   });
 
   /* ---------- 图片压缩工具 ---------- */
@@ -218,5 +314,14 @@
     if (e.key === 'Escape') ['editModal', 'cropModal', 'commentModal'].forEach(function (id) { $(id).hidden = true; });
   });
 
+  /* 首页「编辑主页」跳到这里时自动打开编辑弹窗 */
+  if (location.hash === '#edit') {
+    setTimeout(function () {
+      openEdit();
+      try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+    }, 120);
+  }
+
+  if (P) P.subscribe(function () { renderAll(); });
   renderAll();
 })();

@@ -57,8 +57,9 @@ html, body { margin:0; padding:0; }
   border:4px solid rgba(255,255,255,.92); background:var(--soc-avatar-deco); position:relative;
   box-shadow:0 6px 18px rgba(120,110,125,.18); }
 .soc-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
-.avatar-edit { position:absolute; right:0; bottom:0; width:30px; height:30px; border-radius:50%;
-  border:2px solid #fff; background:var(--soc-accent); color:#fff; font-size:14px; cursor:pointer; }
+.avatar-edit { position:absolute; right:3px; bottom:3px; z-index:3; width:30px; height:30px; border-radius:50%;
+  border:2px solid #fff; background:var(--soc-accent); color:#fff; font-size:14px; cursor:pointer;
+  display:grid; place-items:center; line-height:1; padding:0; }
 .soc-profile-info { padding-bottom:2px; }
 .soc-name-row { display:flex; align-items:center; gap:8px; }
 .soc-name-row h1 { font-size:23px; margin:0; font-weight:600; letter-spacing:.02em; color:#4a4550; }
@@ -152,13 +153,40 @@ html, body { margin:0; padding:0; }
 .modal-card input,.modal-card textarea { width:100%; margin-top:6px; padding:10px 12px; border:1px solid #e3dfe4;
   border-radius:10px; font-size:14px; font-family:inherit; color:#4b4450; outline:none; resize:vertical; }
 .modal-card input:focus,.modal-card textarea:focus { border-color:var(--soc-accent); }
+/* 资料编辑：头像预览 / 账号输入 / 字数提示 */
+.edit-card { max-width:460px; }
+.edit-avatar-row { display:flex; align-items:center; gap:16px; margin-bottom:18px;
+  padding-bottom:16px; border-bottom:1px solid #f0edf0; }
+.edit-avatar { width:72px; height:72px; flex-shrink:0; border-radius:50%; overflow:hidden;
+  border:3px solid #fff; box-shadow:0 4px 14px rgba(120,110,125,.18); background:var(--soc-avatar-deco); }
+.edit-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+.edit-avatar-tools { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.edit-avatar-tools small { width:100%; color:#aaa2ad; font-size:11px; }
+.btn-soft { border:1px solid var(--soc-line); background:#faf7fa; color:var(--soc-accent);
+  border-radius:18px; padding:8px 16px; font-size:12px; cursor:pointer; }
+.btn-soft:hover { background:#fff; }
+.btn-text { border:none; background:transparent; color:#aaa2ad; font-size:12px; cursor:pointer; padding:8px 4px; }
+.btn-text:hover { color:var(--soc-accent); }
+.modal-card label { position:relative; }
+.field-count { display:block; text-align:right; font-size:11px; color:#b7b0b9; margin-top:4px; }
+.handle-field { display:flex; align-items:center; margin-top:6px; border:1px solid #e3dfe4; border-radius:10px; overflow:hidden; }
+.handle-field:focus-within { border-color:var(--soc-accent); }
+.handle-field i { font-style:normal; padding-left:12px; color:#b3adb6; font-size:14px; }
+.handle-field input { margin:0; border:none; border-radius:0; }
+.handle-field input:focus { border:none; }
+/* 头像裁剪：缩放条 + 拖拽舞台 */
+.crop-stage { position:relative; width:100%; max-width:280px; aspect-ratio:1/1; margin:0 auto 14px;
+  background:#f6f4f6; border-radius:12px; overflow:hidden; touch-action:none; cursor:grab; user-select:none; }
+.crop-stage.dragging { cursor:grabbing; }
+.crop-stage img { position:absolute; left:50%; top:50%; max-width:none; max-height:none;
+  transform-origin:center center; pointer-events:none; -webkit-user-drag:none; }
+.crop-zoom { display:flex; align-items:center; gap:12px; margin-bottom:6px; }
+.crop-zoom input[type="range"] { flex:1; margin:0; padding:0; border:none; accent-color:var(--soc-accent); }
+.crop-tip { margin:0 0 12px; text-align:center; font-size:11px; color:#aaa2ad; }
 .modal-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:8px; }
 .btn-ghost,.btn-primary { border:none; border-radius:18px; padding:9px 20px; font-size:13px; cursor:pointer; }
 .btn-ghost { background:#f3f0f3; color:#7d7883; }
 .btn-primary { background:var(--soc-accent); color:#fff; }
-.crop-stage { background:#f6f4f6; border-radius:12px; overflow:hidden; display:flex; justify-content:center; align-items:center;
-  max-height:340px; margin-bottom:14px; }
-.crop-stage img { max-width:100%; max-height:340px; display:block; }
 .comment-card { max-width:460px; }
 .comment-list { max-height:300px; overflow:auto; margin-bottom:14px; }
 .comment-item { padding:9px 0; border-bottom:1px solid #f0edf0; font-size:13px; }

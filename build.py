@@ -133,6 +133,7 @@ def shell(title, active, content):
     %s
   </main>
   %s
+  <script src="assets/js/profile.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
@@ -243,18 +244,18 @@ def home_content():
     <section class="ig-profile glass-card reveal searchable"
              data-title="%s %s" data-desc="%s" data-tags="个人 资料 主页">
       <div class="ig-avatar-col">
-        <div class="ig-avatar-ring"><div class="avatar-frame"><img src="assets/img/avatar.svg" alt="头像"></div></div>
+        <div class="ig-avatar-ring"><div class="avatar-frame"><img src="assets/img/avatar.svg" alt="头像" data-profile="avatar"></div></div>
       </div>
       <div class="ig-profile-main">
         <div class="ig-namerow">
-          <h1 class="profile-name">%s</h1>
+          <h1 class="profile-name" data-profile="name">%s</h1>
           <span class="ig-verified" title="已认证">&#10003;</span>
-          <a class="ig-edit" href="about.html">编辑主页</a>
+          <a class="ig-edit" href="social.html#edit">编辑主页</a>
         </div>
         <div class="ig-stats">%s</div>
         <div class="ig-bio">
-          <p class="ig-bio-name">%s</p>
-          <p class="ig-bio-text">%s</p>
+          <p class="ig-bio-name" data-profile="name">%s</p>
+          <p class="ig-bio-text" data-profile="bio">%s</p>
           <div class="ig-status" id="statusCard"><span class="ig-status-dot"></span><span class="status-text" id="statusText">CONNECTING...</span></div>
           <div class="ig-bio-links">%s<a class="ig-reward-link" href="about.html">&#9749; 赞赏我</a></div>
         </div>
@@ -413,10 +414,10 @@ def about_content():
     tag_html = ''.join('<span class="tag">%s</span>' % esc(t) for t in tags)
     return page_heading('ABOUT', '关于', '关于我，关于这个小小的互联网角落。') + '''
     <div class="glass-card about-hero reveal">
-      <div class="ig-avatar-ring"><div class="avatar-frame"><img src="assets/img/avatar.svg" alt="头像"></div></div>
+      <div class="ig-avatar-ring"><div class="avatar-frame"><img src="assets/img/avatar.svg" alt="头像" data-profile="avatar"></div></div>
       <div>
-        <h2>%s</h2>
-        <p>%s<br><br>%s</p>
+        <h2 data-profile="name">%s</h2>
+        <p><span data-profile="bio">%s</span><br><br>%s</p>
       </div>
     </div>
     <div class="glass-card content-card about-more reveal" style="margin-top:24px">
