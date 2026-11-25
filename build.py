@@ -12,7 +12,7 @@ import random
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 # 静态资源版本号：每次样式/脚本改动后更新，强制 CDN 与浏览器刷新缓存
-ASSET_VER = '202611241900'
+ASSET_VER = '202611251120'
 with open(os.path.join(BASE, 'site.config.json'), 'r', encoding='utf-8') as f:
     cfg = json.load(f)
 
@@ -27,19 +27,22 @@ def safe_json(data):
     return json.dumps(data, ensure_ascii=False).replace('</', '<\\/')
 
 
+# 顶部导航：社区 + 照片墙 / 博客 / 音乐 / 说说；其他页面仍可直达
 NAV = [
     ('home', '首页', 'index.html'),
     ('social', '社区', 'social.html'),
-    ('projects', '项目', 'projects.html'),
-    ('timeline', '归档', 'timeline.html'),
     ('photowall', '照片墙', 'photowall.html'),
+    ('blog', '博客', 'blog.html'),
     ('music', '音乐', 'music.html'),
-    ('tree', '灵境', 'tree.html'),
     ('moments', '说说', 'moments.html'),
-    ('chatter', '杂谈', 'chatter.html'),
-    ('friends', '友链', 'friends.html'),
-    ('about', '关于', 'about.html'),
 ]
+
+# 三个功能入口使用用户提供的动物图作为图标
+NAV_ICONS = {
+    'social': 'assets/img/nav/community-lamb.jpg',
+    'music': 'assets/img/nav/music-puppy.jpg',
+    'moments': 'assets/img/nav/moments-deer.jpg',
+}
 
 ICONS = {
     'github': '<path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.379.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>',
@@ -54,14 +57,25 @@ SEARCH_SVG = '''<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 
 
 def nav_html(active):
+    def icon_html(key):
+        if key not in NAV_ICONS:
+            return ''
+        return '<img src="%s" alt="" aria-hidden="true">' % NAV_ICONS[key]
+
     links = []
     for key, label, file in NAV:
         cls = 'nav-link active' if key == active else 'nav-link'
-        links.append('<a class="%s" href="%s">%s</a>' % (cls, file, label))
+        if key in NAV_ICONS:
+            cls += ' nav-link-img'
+        links.append('<a class="%s" href="%s">%s<span>%s</span></a>'
+                     % (cls, file, icon_html(key), label))
     mobile = []
     for key, label, file in NAV:
         cls = 'active' if key == active else ''
-        mobile.append('<a class="%s" href="%s">%s</a>' % (cls, file, label))
+        if key in NAV_ICONS:
+            cls += ' nav-link-img'
+        mobile.append('<a class="%s" href="%s">%s<span>%s</span></a>'
+                      % (cls, file, icon_html(key), label))
     return '''
     <header class="site-header">
       <div class="header-inner">
@@ -100,6 +114,10 @@ def footer_html():
           <div class="uptime"><span class="pulse-dot"></span><span>系统已稳定运行：<strong id="uptime">0 天 0 小时 0 分</strong></span></div>
           <div class="footer-small">🌙 愿你在这里找到一点温柔</div>
           <a class="footer-link" href="about.html">%s</a>
+          <div class="footer-pages">
+            <a href="projects.html">项目</a><a href="timeline.html">归档</a><a href="photowall.html">照片墙</a>
+            <a href="tree.html">灵境</a><a href="chatter.html">杂谈</a><a href="friends.html">友链</a>
+          </div>
         </div>
       </div>
     </footer>
@@ -118,6 +136,7 @@ def shell(title, active, content):
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#ffffff">
   <meta name="description" content="%s">
+  <script src="assets/js/redirect-github.js?v=__ASSET_VER__"></script>
   <script>
   (function () {
     try {
@@ -134,6 +153,9 @@ def shell(title, active, content):
   <link rel="icon" href="assets/img/avatar.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/style.css?v=__ASSET_VER__">
   <script>window.SITE_CONFIG = %s;</script>
+  <script src="https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js"></script>
+  <script src="assets/js/cloud-config.js?v=__ASSET_VER__"></script>
+  <script src="assets/js/cloud.js?v=__ASSET_VER__"></script>
   <script src="assets/js/skin.js?v=__ASSET_VER__"></script>
 </head>
 <body>
@@ -154,6 +176,7 @@ def shell(title, active, content):
   %s
   <script src="assets/js/profile.js?v=__ASSET_VER__"></script>
   <script src="assets/js/site-data.js?v=__ASSET_VER__"></script>
+  <script src="assets/js/cloud-render.js?v=__ASSET_VER__"></script>
   <script src="assets/js/main.js?v=__ASSET_VER__"></script>
 </body>
 </html>
@@ -367,6 +390,22 @@ def photowall_content():
     return page_heading('GALLERY', '照片墙', '把沿途的光影收藏起来，留给以后的自己。') + '<div class="photo-grid">%s</div>' % ''.join(cards)
 
 
+def blog_content():
+    cards = []
+    items = cfg.get('articles', []) + cfg.get('chatters', [])
+    for a in items:
+        cards.append('''
+        <article class="glass-card content-card reveal">
+          <div class="mini-label">Records · %s</div>
+          <h3 style="margin-top:14px">%s</h3>
+          <p>%s</p>
+          <div class="card-date" style="color:var(--text-faint)">%s</div>
+        </article>''' % (esc(a.get('date', '')), esc(a.get('title', '')),
+                         esc(a.get('description', '')), esc(' · '.join(a.get('tags', [])))))
+    return page_heading('BLOG', '博客', '把日子写成文字，留给以后的自己慢慢读。') + \
+        '<div class="moment-grid">%s</div>' % ''.join(cards)
+
+
 def music_content():
     tracks = cfg.get('music', [])
     first = tracks[0] if tracks else {'title': '夜的钢琴曲', 'artist': '未知', 'emoji': '🎵'}
@@ -470,6 +509,7 @@ PAGES = {
     'projects.html': ('项目', 'projects', projects_content),
     'timeline.html': ('归档', 'timeline', timeline_content),
     'photowall.html': ('照片墙', 'photowall', photowall_content),
+    'blog.html': ('博客', 'blog', blog_content),
     'music.html': ('音乐', 'music', music_content),
     'tree.html': ('灵境', 'tree', tree_content),
     'moments.html': ('说说', 'moments', moments_content),

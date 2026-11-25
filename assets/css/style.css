@@ -907,6 +907,9 @@ html.dark .clock-block { background: #57505e; }
 .footer-small { font-family: var(--font-serif); color: var(--text-faint); }
 .footer-link { border-bottom: 1px dashed var(--text-faint); padding-bottom: 2px; transition: color 0.3s ease; }
 .footer-link:hover { color: var(--accent); }
+.footer-pages { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+.footer-pages a { font-size: 11px; color: var(--text-faint); letter-spacing: .04em; transition: color .3s ease; }
+.footer-pages a:hover { color: var(--accent); }
 
 /* ---------------- 内页通用 ---------------- */
 .page-heading { margin-bottom: 36px; }
@@ -1222,6 +1225,18 @@ html[data-skin] .logo .logo-sub { -webkit-text-fill-color: #9a8fa2 !important; }
 .nav-link:hover { color: #6b6472; transform: none; background: rgba(180, 165, 190, .13); }
 .nav-link.active { color: #6b6472; background: rgba(180, 165, 190, .2); }
 .nav-link.active::after { display: none; }
+
+/* 带动物图标的导航项：图片圆形贴合，文字保持原有手写衬线风格 */
+.nav-link.nav-link-img,
+.mobile-nav a.nav-link-img { display: inline-flex; align-items: center; gap: 7px; }
+.nav-link-img img {
+  width: 24px; height: 24px; border-radius: 50%; object-fit: cover;
+  background: #fff; border: 1px solid rgba(201,168,120,.55);
+  box-shadow: 0 2px 7px rgba(150,128,142,.2);
+  transition: transform .3s var(--ease);
+}
+.nav-link-img:hover img { transform: scale(1.12) rotate(-4deg); }
+.mobile-nav a.nav-link-img img { width: 30px; height: 30px; }
 
 /* 首页英文 hero：手写 eyebrow + 衬线大标题 + 小字描述 */
 .home-hero { text-align: center; padding: 36px 16px 22px; }
@@ -1568,3 +1583,18 @@ html[data-skin] .home-hero-title {
 }
 html[data-skin] .home-hero-title { -webkit-text-fill-color: #4a4550 !important; }
 html[data-skin] .logo .logo-sub { -webkit-text-fill-color: #9a8fa2 !important; }
+
+/* ---------- 号主专属：本栏目后台入口（仅登录后可见） ---------- */
+.cloud-admin-entry {
+  position:fixed; left:20px; bottom:22px; z-index:65;
+  display:inline-flex; align-items:center; gap:7px;
+  padding:10px 16px; border-radius:999px; font-size:13px; font-weight:700;
+  color:#fff; text-decoration:none;
+  background:linear-gradient(100deg,var(--accent),#cf9ab0);
+  border:1px solid rgba(255,255,255,.75);
+  box-shadow:0 10px 26px rgba(150,100,125,.3);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.cloud-admin-entry:hover { transform:translateY(-2px); box-shadow:0 14px 32px rgba(150,100,125,.38); }
+.cloud-admin-entry span { color:#f7e6c9; font-size:15px; }
+@media (max-width:600px){ .cloud-admin-entry{left:12px;bottom:14px;padding:8px 12px;font-size:12px} }

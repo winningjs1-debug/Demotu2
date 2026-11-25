@@ -187,8 +187,22 @@ textarea { resize:vertical; min-height:80px; }
   .admin-tabs { position:static; flex-direction:row; overflow-x:auto; padding:8px; gap:6px; }
   .admin-tab { width:auto; flex-shrink:0; padding:9px 12px; font-size:13px; }
 }
+/* 云端号主后台新增组件 */
+.btn.wide { width:100%; margin-top:10px; }
+.cloud-form label { display:block; font-size:13px; font-weight:700; margin-bottom:12px; }
+.cloud-form input { margin-top:7px; }
+.item-list { display:flex; flex-direction:column; gap:10px; }
+.item-card { display:flex; align-items:center; gap:12px; padding:10px 12px; border:1px solid var(--a-line);
+  border-radius:12px; background:rgba(255,255,255,.65); }
+.item-card img { width:52px; height:52px; border-radius:9px; object-fit:cover; flex-shrink:0; }
+.item-info { flex:1; min-width:0; }
+.item-info b { display:block; font-size:14px; color:var(--a-ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.item-info small { color:var(--a-faint); font-size:12px; }
+.item-actions { display:flex; gap:6px; }
+.admin-panel .notice { margin-bottom:18px; }
+
 @media (max-width:560px) {
-  .admin-tabs { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; padding:6px; }
+  .admin-tabs { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; padding:6px; }
   .admin-tab { width:auto; justify-content:center; gap:4px; padding:8px 2px; font-size:11px; white-space:nowrap; }
   .admin-tab span { font-size:12px; width:auto; }
   .admin-shell { padding:18px 14px 46px; }

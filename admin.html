@@ -8,158 +8,96 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#f7eef3">
   <meta name="robots" content="noindex, nofollow">
-  <title>主页后台 · DemoTu.com</title>
+  <title>号主后台 · DemoTu.com</title>
   <link rel="icon" href="assets/img/avatar.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/admin.css?v=202611241910">
+  <link rel="stylesheet" href="assets/css/admin.css?v=202611251120">
+  <script src="assets/js/redirect-github.js?v=202611251120"></script>
+  <script>
+  (function () {
+    try {
+      if (location.protocol.indexOf('http') !== 0) return;
+      var u = new URL(location.href);
+      if (!u.searchParams.has('v')) {
+        u.searchParams.set('v', String(Date.now()));
+        location.replace(u.pathname + u.search + u.hash);
+      }
+    } catch (e) {}
+  })();
+  </script>
   <script>window.SITE_CONFIG = {"socials":[{"name":"github","label":"GitHub","url":"https://github.com/DemoTu","icon":"github"},{"name":"gitee","label":"Gitee","url":"https://gitee.com/DemoTu","icon":"gitee"},{"name":"email","label":"邮箱","url":"mailto:hello@demotu.com","icon":"email"},{"name":"qq","label":"QQ","url":"#","icon":"qq"},{"name":"wechat","label":"微信","url":"#","icon":"wechat"},{"name":"rss","label":"RSS","url":"#","icon":"rss"}]};</script>
+  <script src="https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js"></script>
+  <script src="assets/js/cloud-config.js?v=202611251120"></script>
+  <script src="assets/js/cloud.js?v=202611251120"></script>
+  <script src="assets/js/profile.js?v=202611251120"></script>
+  <script src="assets/js/site-data.js?v=202611251120"></script>
 </head>
 <body>
-  <div class="admin-glow one"></div>
-  <div class="admin-glow two"></div>
+  <div class="admin-glow one"></div><div class="admin-glow two"></div>
 
-  <!-- 登录 -->
+  <!-- 邮箱验证码登录 -->
   <section class="login-wrap" id="loginView">
     <div class="login-card">
-      <div class="admin-badge">✦ PRIVATE</div>
+      <div class="admin-badge">✦ OWNER ONLY</div>
       <h1>DemoTu<span>.</span>com</h1>
-      <p class="login-sub">主页管理后台 · 请输入密码</p>
-      <form id="loginForm" autocomplete="off">
-        <label for="loginPass">管理密码</label>
+      <p class="login-sub">号主后台 · 邮箱验证码登录</p>
+      <div class="cloud-form">
+        <label>邮箱地址<input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email"></label>
         <div class="pass-row">
-          <input type="password" id="loginPass" placeholder="请输入密码" required>
-          <button type="submit" class="btn btn-primary">进入</button>
+          <input type="text" id="loginCode" placeholder="验证码" inputmode="numeric" maxlength="8">
+          <button type="button" class="btn btn-soft" id="sendCodeBtn">获取验证码</button>
         </div>
+        <button type="button" class="btn btn-primary wide" id="loginBtn">登录</button>
         <p class="login-error" id="loginError"></p>
-      </form>
-      <p class="login-hint">初始密码：<code>demotu2026</code><br>登录后请到「设置」里修改密码。</p>
+      </div>
+      <p class="login-hint">只有号主可以登录发布；访客无需登录，只能看到你发布的内容。</p>
       <a class="back-link" href="index.html">← 返回主页</a>
+    </div>
+  </section>
+
+  <!-- 首次绑定号主 -->
+  <section class="login-wrap" id="bindView" hidden>
+    <div class="login-card">
+      <div class="admin-badge">✦ FIRST TIME</div>
+      <h1>绑定<span>号主</span></h1>
+      <p class="login-sub">当前账号： <b id="whoEmail">已登录</b></p>
+      <p class="login-hint">首次使用请把这个账号绑定为本站号主。绑定后只有这个账号能发布和修改内容。</p>
+      <button type="button" class="btn btn-primary wide" id="bindBtn">绑定为号主</button>
+      <button type="button" class="btn btn-ghost wide" id="bindLogoutBtn">退出登录</button>
+      <p class="login-error" id="bindError"></p>
     </div>
   </section>
 
   <!-- 后台主体 -->
   <div class="admin-shell" id="dashView" hidden>
     <header class="admin-top">
-      <div class="admin-brand"><span class="admin-mark">✿</span><b>DemoTu.com</b><small>主页后台</small></div>
+      <div class="admin-brand"><span class="admin-mark">✿</span><b>DemoTu.com</b><small>号主后台</small></div>
       <div class="admin-top-actions">
         <a class="btn btn-ghost" href="index.html" target="_blank">预览主页 ↗</a>
         <button class="btn btn-ghost" id="logoutBtn">退出登录</button>
       </div>
     </header>
-
     <div class="admin-layout">
       <nav class="admin-tabs" id="adminTabs">
-        <button class="admin-tab active" data-tab="profile"><span>◉</span>个人资料</button>
-        <button class="admin-tab" data-tab="links"><span>❖</span>社交链接</button>
-        <button class="admin-tab" data-tab="images"><span>▦</span>图片管理</button>
-        <button class="admin-tab" data-tab="settings"><span>⚙</span>设置备份</button>
+        <button class="admin-tab active" data-tab="profile"><span>◉</span>资料链接</button>
+        <button class="admin-tab" data-tab="social"><span>❖</span>社区</button>
+        <button class="admin-tab" data-tab="photo"><span>▦</span>照片墙</button>
+        <button class="admin-tab" data-tab="blog"><span>✎</span>博客</button>
+        <button class="admin-tab" data-tab="music"><span>♪</span>音乐</button>
+        <button class="admin-tab" data-tab="moment"><span>✦</span>说说</button>
       </nav>
-
       <main class="admin-main">
-        <!-- 个人资料 -->
-        <section class="admin-panel" id="panel-profile">
-          <div class="panel-title"><h2>个人资料</h2><p>修改后自动同步到首页、社区和关于页。</p></div>
-          <div class="card">
-            <div class="avatar-editor">
-              <div class="avatar-preview"><img id="adminAvatar" src="assets/img/avatar.svg" alt="头像预览"></div>
-              <div class="avatar-actions">
-                <label class="btn btn-soft" for="adminAvatarFile">上传头像</label>
-                <input type="file" id="adminAvatarFile" accept="image/*" hidden>
-                <button class="btn btn-ghost" id="resetAvatarBtn">恢复默认</button>
-                <p class="field-tip">自动居中裁成正圆形，建议上传正方形图片。</p>
-              </div>
-            </div>
-            <div class="form-grid">
-              <label>昵称<input type="text" id="editProfileName" maxlength="24" placeholder="DemoTu.com"></label>
-              <label>账号（@后面的部分）<input type="text" id="editProfileHandle" maxlength="24" placeholder="demotu"></label>
-              <label class="full">简介<textarea id="editProfileBio" rows="3" maxlength="120" placeholder="写一句喜欢的话…"></textarea></label>
-            </div>
-            <div class="card-actions"><button class="btn btn-primary" id="saveProfileBtn">保存资料</button></div>
-          </div>
-        </section>
-
-        <!-- 社交链接 -->
-        <section class="admin-panel" id="panel-links" hidden>
-          <div class="panel-title"><h2>社交链接</h2><p>编辑首页头像下方的图标按钮，可增删、排序。</p></div>
-          <div class="card">
-            <div class="link-live"><span class="live-label">实时预览</span><div class="ig-bio-links" id="linkPreview"></div></div>
-            <div class="link-list" id="linkList"></div>
-            <div class="card-actions split">
-              <button class="btn btn-soft" id="addLinkBtn">＋ 添加链接</button>
-              <button class="btn btn-primary" id="saveLinksBtn">保存链接</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="panel-title small"><h2>赞赏按钮</h2><p>链接行最后的粉色胶囊按钮。</p></div>
-            <div class="form-grid">
-              <label>按钮文字<input type="text" id="rewardLabel" maxlength="16" placeholder="赞赏我"></label>
-              <label>图标 emoji<input type="text" id="rewardEmoji" maxlength="4" placeholder="☕"></label>
-              <label class="full">跳转链接<input type="text" id="rewardUrl" placeholder="about.html 或完整网址"></label>
-            </div>
-          </div>
-        </section>
-
-        <!-- 图片管理 -->
-        <section class="admin-panel" id="panel-images" hidden>
-          <div class="panel-title"><h2>图片管理</h2><p>上传的图片保存在当前浏览器，可设为头像或首页帖子封面。</p></div>
-          <div class="card">
-            <label class="upload-zone" for="galleryFile">
-              <span class="upload-ico">＋</span>
-              <b>点击上传图片</b>
-              <small>支持多选，自动压缩后保存到本机；建议 20 张以内</small>
-            </label>
-            <input type="file" id="galleryFile" accept="image/*" multiple hidden>
-            <div class="gallery-grid" id="galleryGrid"></div>
-          </div>
-          <div class="card">
-            <div class="panel-title small"><h2>首页帖子封面</h2><p>共 11 个格子，点击「更换」从图片库选择，也可直接填图片网址。</p></div>
-            <div class="cover-list" id="coverList"></div>
-            <div class="card-actions"><button class="btn btn-ghost" id="clearCoversBtn">全部恢复默认封面</button></div>
-          </div>
-        </section>
-
-        <!-- 设置 -->
-        <section class="admin-panel" id="panel-settings" hidden>
-          <div class="panel-title"><h2>设置与备份</h2><p>修改密码、导出备份、恢复默认数据。</p></div>
-          <div class="card">
-            <div class="panel-title small"><h2>修改密码</h2></div>
-            <div class="form-grid">
-              <label>当前密码<input type="password" id="oldPass" placeholder="当前密码"></label>
-              <label>新密码<input type="password" id="newPass" placeholder="至少 6 位"></label>
-              <label class="full">确认新密码<input type="password" id="newPass2" placeholder="再输入一次"></label>
-            </div>
-            <div class="card-actions"><button class="btn btn-primary" id="changePassBtn">修改密码</button></div>
-          </div>
-          <div class="card">
-            <div class="panel-title small"><h2>数据备份</h2><p id="storageInfo">正在计算存储占用…</p></div>
-            <div class="card-actions split">
-              <button class="btn btn-soft" id="exportBtn">导出备份文件</button>
-              <label class="btn btn-ghost" for="importFile">导入备份文件</label>
-              <input type="file" id="importFile" accept="application/json,.json" hidden>
-              <button class="btn btn-danger" id="resetBtn">恢复默认数据</button>
-            </div>
-          </div>
-          <div class="notice">
-            <b>小提示</b>
-            <p>本站是静态页面，后台密码与数据保存在你自己的浏览器里，能防止别人随手改动，但不是服务器端账号系统。换设备或清理浏览器数据前，请先「导出备份文件」。</p>
-          </div>
-        </section>
+        <div class="card notice" id="cloudNotice">正在连接云端发布服务…</div>
+        <section class="admin-panel" id="panel-profile" hidden></section>
+        <section class="admin-panel" id="panel-social" hidden></section>
+        <section class="admin-panel" id="panel-photo" hidden></section>
+        <section class="admin-panel" id="panel-blog" hidden></section>
+        <section class="admin-panel" id="panel-music" hidden></section>
+        <section class="admin-panel" id="panel-moment" hidden></section>
       </main>
     </div>
   </div>
 
-  <!-- 图片选择弹窗 -->
-  <div class="admin-modal" id="pickerModal" hidden>
-    <div class="admin-modal-card">
-      <div class="modal-head"><h3>选择图片</h3><button class="icon-close" id="pickerClose">×</button></div>
-      <div class="picker-options" id="pickerOptions"></div>
-      <div class="picker-url"><input type="text" id="pickerUrl" placeholder="或粘贴图片网址 https://…"><button class="btn btn-primary" id="pickerUrlBtn">使用网址</button></div>
-    </div>
-  </div>
-
   <div class="toast" id="toast"></div>
-
-  <script src="assets/js/profile.js?v=202611241910"></script>
-  <script src="assets/js/site-data.js?v=202611241910"></script>
-  <script src="assets/js/admin.js?v=202611241910"></script>
+  <script src="assets/js/admin-cloud.js?v=202611251120"></script>
 </body>
 </html>

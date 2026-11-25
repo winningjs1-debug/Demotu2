@@ -38,6 +38,9 @@ html, body { margin:0; padding:0; }
 .soc-nav a { color:#7d7883; text-decoration:none; font-size:13px; padding:7px 14px; border-radius:20px; transition:.2s;
   font-family:"Songti SC","Noto Serif SC",Georgia,serif; letter-spacing:.04em; }
 .soc-nav a:hover,.soc-nav a.active { background:rgba(180,165,190,.2); color:#6b6472; }
+.soc-nav a.nav-img { display:inline-flex; align-items:center; gap:6px; }
+.soc-nav a.nav-img img { width:24px; height:24px; border-radius:50%; object-fit:cover; border:1px solid rgba(201,168,120,.55); box-shadow:0 2px 7px rgba(150,128,142,.2); transition:transform .3s ease; }
+.soc-nav a.nav-img:hover img { transform:scale(1.12) rotate(-4deg); }
 
 .soc-main { max-width:720px; margin:0 auto; padding:26px 18px 80px; }
 
@@ -214,8 +217,9 @@ html, body { margin:0; padding:0; }
   .social-page { background-size:auto 95vh; }
   .soc-header-inner { height:54px; padding:0 16px; }
   .soc-logo { font-size:21px; }
-  .soc-nav a { padding:6px 9px; font-size:12px; }
-  .soc-nav a:nth-child(3),.soc-nav a:nth-child(4) { display:none; }
+  .soc-nav a { padding:6px 8px; font-size:12px; }
+  .soc-nav a.nav-img img { width:20px; height:20px; }
+  .soc-nav a.nav-img span { display:none; }
   .soc-main { padding:18px 12px 88px; }
   .soc-profile-body { grid-template-columns:1fr; gap:12px; padding:0 18px 18px; text-align:center; }
   .soc-avatar-wrap { margin:0 auto; margin-top:-40px; }
