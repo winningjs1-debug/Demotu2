@@ -73,8 +73,13 @@
     var check = await cloud.database.from('demotu_owner').select('id').eq('owner_id', sess.data.user.id);
     if (check.error) return { data: null, error: check.error };
     if (check.data && check.data.length) return { data: check.data[0], error: null };
-    var res = await cloud.database.from('demotu_owner').insert({ email: email || null }).select();
-    return { data: unwrap(res) && res.data[0], error: res.error || null };
+    // 只传 email，owner_id 交给数据库 DEFAULT auth.uid() 填充；显式 null 会被 RLS 拒绝。
+    var payload = { email: email || null };
+    var res = await cloud.database.from('demotu_owner').insert(payload).select();
+    if (res && res.error) return { data: null, error: res.error };
+    // 写入成功但 .select() 因 RLS 读不到自己行时，视为绑定成功（后续 isOwner 会再确认）。
+    var created = res && Array.isArray(res.data) ? res.data[0] : null;
+    return { data: created || { owner_id: sess.data.user.id }, error: null };
   };
 
   api.list = async function (kind) {

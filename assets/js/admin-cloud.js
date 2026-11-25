@@ -29,17 +29,21 @@
       $('#loginError').textContent = '云服务未加载，请刷新页面重试';
       return;
     }
-    var res = await cloud.session();
-    if (res.error) { $('#loginError').textContent = errMsg(res.error); return; }
-    if (res.data && res.data.user) {
-      sessUser = res.data.user;
-      owner = await cloud.isOwner();
-      if (owner) { show('dashView'); await loadAll(); }
-      else {
-        $('#whoEmail').textContent = sessUser.email || sessUser.name || '已登录账号';
-        show('bindView');
-      }
-    } else show('loginView');
+    try {
+      var res = await cloud.session();
+      if (res.error) { $('#loginError').textContent = errMsg(res.error); return; }
+      if (res.data && res.data.user) {
+        sessUser = res.data.user;
+        owner = await cloud.isOwner();
+        if (owner) { show('dashView'); await loadAll(); }
+        else {
+          $('#whoEmail').textContent = sessUser.email || sessUser.name || '已登录账号';
+          show('bindView');
+        }
+      } else show('loginView');
+    } catch (e) {
+      $('#loginError').textContent = errMsg(e);
+    }
   }
 
   $('#sendCodeBtn').addEventListener('click', async function () {
@@ -61,6 +65,14 @@
     var res = await cloud.verify(email, pending.verificationId, pending.isExistingUser, code);
     if (res.error) { $('#loginError').textContent = errMsg(res.error); return; }
     sessUser = res.data.user;
+    // verify 返回对象可能不带 email，用 session 里的用户补全，确保绑定时能写入邮箱。
+    try {
+      var s = await cloud.session();
+      if (s.data && s.data.user) {
+        sessUser = Object.assign({}, s.data.user, sessUser);
+        if (!sessUser.email && s.data.user.email) sessUser.email = s.data.user.email;
+      }
+    } catch (e) {}
     pending = null;
     owner = await cloud.isOwner();
     if (owner) { show('dashView'); await loadAll(); }
@@ -71,9 +83,20 @@
   });
 
   $('#bindBtn').addEventListener('click', async function () {
-    var res = await cloud.bindOwner(sessUser && sessUser.email ? sessUser.email : null);
-    if (res.error) return $('#bindError').textContent = errMsg(res.error);
-    owner = true; show('dashView'); await loadAll(); toast('号主身份已绑定');
+    var btn = this;
+    $('#bindError').textContent = '';
+    btn.disabled = true; btn.textContent = '绑定中…';
+    try {
+      var res = await cloud.bindOwner(sessUser && sessUser.email ? sessUser.email : null);
+      if (res.error) { $('#bindError').textContent = errMsg(res.error); return; }
+      var ok = await cloud.isOwner();
+      if (!ok) { $('#bindError').textContent = '绑定已提交，但身份校验未通过，请刷新页面重试'; return; }
+      owner = true; show('dashView'); await loadAll(); toast('号主身份已绑定');
+    } catch (e) {
+      $('#bindError').textContent = errMsg(e);
+    } finally {
+      btn.disabled = false; btn.textContent = '绑定为号主';
+    }
   });
   async function logout() { await cloud.signOut(); location.reload(); }
   $('#logoutBtn').addEventListener('click', logout);

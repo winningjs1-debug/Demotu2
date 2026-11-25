@@ -153,7 +153,7 @@ def shell(title, active, content):
   <link rel="icon" href="assets/img/avatar.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/style.css?v=__ASSET_VER__">
   <script>window.SITE_CONFIG = %s;</script>
-  <script src="assets/js/workbuddy-cloud-sdk.js?v=202611251215"></script>
+  <script src="assets/js/workbuddy-cloud-sdk.js?v=202611251355"></script>
   <script src="assets/js/cloud-config.js?v=__ASSET_VER__"></script>
   <script src="assets/js/cloud.js?v=__ASSET_VER__"></script>
   <script src="assets/js/skin.js?v=__ASSET_VER__"></script>
