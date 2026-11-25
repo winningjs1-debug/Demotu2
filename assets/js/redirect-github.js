@@ -5,6 +5,7 @@
     var rel = location.pathname.replace(/^\/Demotu2\/?/, '');
     var u = new URL('https://demotu.app.workbuddy.host/' + rel);
     u.searchParams.set('sharecode', 'WW34KV7DHD');
-    location.replace(u.pathname + u.search + u.hash);
+    // 必须跳到完整绝对 URL；若只传 pathname 会停留在 github.io 域名导致 Site not found。
+    if (location.href !== u.href) location.replace(u.href);
   } catch (e) {}
 })();
