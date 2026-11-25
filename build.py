@@ -12,7 +12,7 @@ import random
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 # 静态资源版本号：每次样式/脚本改动后更新，强制 CDN 与浏览器刷新缓存
-ASSET_VER = '202611251425'
+ASSET_VER = '202611251516'
 with open(os.path.join(BASE, 'site.config.json'), 'r', encoding='utf-8') as f:
     cfg = json.load(f)
 
@@ -37,9 +37,11 @@ NAV = [
     ('moments', '说说', 'moments.html'),
 ]
 
-# 三个功能入口使用用户提供的动物图作为图标
+# 功能入口使用用户提供的动物图作为图标
 NAV_ICONS = {
     'social': 'assets/img/nav/community-lamb.jpg',
+    'photowall': 'assets/img/nav/photowall-rabbit.jpg',
+    'blog': 'assets/img/nav/blog-deer.jpg',
     'music': 'assets/img/nav/music-puppy.jpg',
     'moments': 'assets/img/nav/moments-deer.jpg',
 }
